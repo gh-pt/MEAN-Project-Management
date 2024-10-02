@@ -3,41 +3,44 @@ import "dotenv/config";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectDB from './db/index'
-import userRouter from './routes/User.route'
+import connectDB from "./db/index";
+import userRouter from "./routes/User.route";
+import projectRouter from "./routes/Project.route";
+import queryRouter from './routes/Query.route'
 
 const PORT = process.env.PORT || 3000;
 const app: Express = express();
 app.use(morgan("tiny"));
 
 // Middleware cors
-app.use(cors({
+app.use(
+  cors({
     origin: process.env.CORS_ORIGIN,
-    credentials: true
-}))
+    credentials: true,
+  })
+);
 
 // Middleware
-app.use(express.json({ limit: "16kb" }))
-app.use(express.urlencoded({ extended: true, limit: "16kb" }))
-app.use(express.static("public"))
-app.use(cookieParser())
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
+app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Express + TypeScript Server!!");
+  res.send("Express + TypeScript Server!!");
 });
 
-
-// MonogDB Connection 
+// MonogDB Connection
 connectDB()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log('Server is running on Port: ' + PORT);
-        })
-    })
-    .catch((error) => {
-        console.log("MongoDB Connection Failed !!!", error);
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("Server is running on Port: " + PORT);
+    });
+  })
+  .catch((error) => {
+    console.log("MongoDB Connection Failed !!!", error);
+  });
 
-    })
-
-
-app.use('/api/user', userRouter);
+app.use("/api/user", userRouter);
+app.use("/api/project", projectRouter);
+app.use("/api/query", queryRouter);

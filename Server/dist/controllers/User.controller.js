@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyToken = exports.refreshAccessToken = exports.loginUser = exports.registerUser = exports.getAllUsers = void 0;
-const user_model_1 = require("../models/user.model");
+const User_model_1 = require("../models/User.model");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 require("dotenv/config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -37,7 +37,7 @@ const cookieOptions = {
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("request coming");
-        const users = yield user_model_1.User.find().select("-password");
+        const users = yield User_model_1.User.find().select("-password");
         res.status(200).send(users);
     }
     catch (error) {
@@ -55,7 +55,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         //     return;
         // }
         // check if the user exists
-        const existedUser = yield user_model_1.User.findOne({
+        const existedUser = yield User_model_1.User.findOne({
             $or: [{ Username }, { Email }],
         });
         if (existedUser) {
@@ -65,7 +65,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         // generate hashedPassword
         const hashedPassword = yield bcryptjs_1.default.hash(Password, 10);
         // create user
-        const user = yield new user_model_1.User({
+        const user = yield new User_model_1.User({
             Username,
             Email,
             Contact,
@@ -75,7 +75,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }).save();
         // Generate the accessToken and refreshToken
         const { accessToken, refreshToken } = generateTokens(user._id);
-        yield user_model_1.User.updateOne({ _id: user._id }, {
+        yield User_model_1.User.updateOne({ _id: user._id }, {
             $set: {
                 refreshToken
             }
@@ -106,7 +106,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         // find the user
-        const user = yield user_model_1.User.findOne({
+        const user = yield User_model_1.User.findOne({
             $or: [{ Username }, { Email }],
         });
         if (!user) {
@@ -121,12 +121,12 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
-        yield user_model_1.User.updateOne({ _id: user._id }, {
+        yield User_model_1.User.updateOne({ _id: user._id }, {
             $set: {
                 refreshToken
             }
         });
-        const loggedInUser = yield user_model_1.User.findById(user._id).select("-Password -refreshToken");
+        const loggedInUser = yield User_model_1.User.findById(user._id).select("-Password -refreshToken");
         res
             .status(201)
             .cookie("accessToken", accessToken, cookieOptions)
@@ -154,7 +154,7 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
             return;
         }
         const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
-        const user = yield user_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id);
+        const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id);
         if (!user) {
             res.status(401).send("Invalid refresh token");
             return;
@@ -164,7 +164,7 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
             return;
         }
         const { accessToken, refreshToken } = generateTokens(user._id);
-        yield user_model_1.User.updateOne({ _id: user._id }, {
+        yield User_model_1.User.updateOne({ _id: user._id }, {
             $set: {
                 refreshToken
             }
@@ -196,7 +196,7 @@ const verifyToken = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             return;
         }
         const decodedToken = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        const user = yield user_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id).select("-password -refreshToken");
+        const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id).select("-password -refreshToken");
         if (!user) {
             res.status(401).send("Invalid Access Token");
             return;
