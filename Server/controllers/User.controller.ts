@@ -47,12 +47,6 @@ export const registerUser = async (req: Request, res: Response) => {
     try {
         const { Username, Email, Contact, Password, ConfirmPassword, ProfileImage } = req.body;
 
-        // check if any field is empty
-        // if ([Username, Email, Contact, Password, ConfirmPassword, ProfileImage].some((field: String) => field.trim() === "")) {
-        //     res.status(409).send("All fields are required");
-        //     return;
-        // }
-
         // check if the user exists
         const existedUser = await User.findOne({
             $or: [{ Username }, { Email }],

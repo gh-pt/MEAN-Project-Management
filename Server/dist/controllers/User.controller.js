@@ -49,11 +49,6 @@ exports.getAllUsers = getAllUsers;
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { Username, Email, Contact, Password, ConfirmPassword, ProfileImage } = req.body;
-        // check if any field is empty
-        // if ([Username, Email, Contact, Password, ConfirmPassword, ProfileImage].some((field: String) => field.trim() === "")) {
-        //     res.status(409).send("All fields are required");
-        //     return;
-        // }
         // check if the user exists
         const existedUser = yield User_model_1.User.findOne({
             $or: [{ Username }, { Email }],
