@@ -9,7 +9,7 @@
         </button>
         <!-- Search button -->
         <button (click)="onSearch()"
-            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 ">
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
             Search
         </button>
     </div>
@@ -20,18 +20,23 @@
         </button>
     </div>
 </div>
-<!-- Conditionally show the modal when isModalOpen is true -->
+
+<!-- Conditionally show the modal when isFormModalOpen is true -->
 <app-project-form *ngIf="isFormModalOpen" [projectId]="selectedProjectId" (closeModalEvent)="closeFormModal()"
     (formSubmitEvent)="handleFormSubmit($event)"></app-project-form>
 
-<div *ngIf="filteredProjects.length === 0" class="text-center text-2xl">No Project Yet</div>
+<!-- Display message if no projects found after searching -->
+<div *ngIf="filteredProjects.length === 0 && searchTerm" class="text-center text-2xl">No Projects Found</div>
 
 <div *ngIf="filteredProjects.length > 0">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 p-6">
         <div *ngFor="let project of filteredProjects">
-            <!-- Pass product data to the ProductCard component -->
+            <!-- Pass project data to the ProjectCard component -->
             <app-project-card [project]="project" (emitter)="deleteProject($event)"
                 (editProjectEvent)="openEditForm($event)"></app-project-card>
         </div>
     </div>
 </div>
+
+<!-- Display message if no projects yet and no search term -->
+<div *ngIf="filteredProjects.length === 0 && !searchTerm" class="text-center text-2xl">No Project Yet</div>

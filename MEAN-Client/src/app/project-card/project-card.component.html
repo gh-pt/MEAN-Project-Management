@@ -2,7 +2,7 @@
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ project.ProjectName }}</h5>
 
     <!-- Show partial project details -->
-    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" [innerHTML]="project.Details | slice:0:100"></p>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" [innerHTML]="project.Details | slice:0:48"></p>
 
     <button (click)="openModal()"
         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">

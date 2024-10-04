@@ -21,6 +21,7 @@ export class ProjectsComponent {
     this.loadProducts();
   }
 
+  // Method to load products
   loadProducts(): void {
     this.projectService.getProjects().subscribe((data: Project[]) => {
       this.projects = data;
@@ -28,13 +29,19 @@ export class ProjectsComponent {
     });
   }
 
+  // Method to perform the search
   onSearch() {
     if (this.searchTerm) {
       // Call the API to perform the search
       const obs = this.projectService.searchProducts(this.searchTerm);
       obs.subscribe({
         next: (project) => {
-          this.filteredProjects = project;
+          // Check if the returned project is null or contains only null values
+          if (project && project.length > 0 && project[0] !== null) {
+            this.filteredProjects = project;
+          } else {
+            this.filteredProjects = []; // Set to empty array if no results
+          }
         },
         error: (err) => {
           console.log(err)
@@ -45,25 +52,9 @@ export class ProjectsComponent {
     }
   }
 
-
+  // Clear the search box
   clearSearch() {
     this.searchTerm = ''; // Clear the search term
     this.filteredProjects = [...this.projects]; // Reset to show all products
-  }
-
-  deleteProject(id: object): void {
-    const ans = confirm('Do you really want to delete?');
-    if (ans) {
-      this.projectService.deleteProject(id).subscribe({
-        next: () => {
-          alert('Product deleted successfully.');
-          this.filteredProjects = this.filteredProjects.filter(p => p._id !== id);
-        },
-        error: (err) => {
-          console.log(err);
-          alert('Something went wrong while deleting the product.');
-        }
-      });
-    }
   }
 }
