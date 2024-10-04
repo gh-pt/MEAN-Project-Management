@@ -46,6 +46,6 @@ export class ProjectService {
   // Search a product by Name
   searchProducts(searchTerm: string): Observable<Project[]> {
     const url = `${this.apiUrl + 'getProjectByName'}/${searchTerm}`;
-    return this.http.get<Project[]>(url); // Assuming your API supports a query parameter for search
+    return this.http.get<Project[]>(url); 
   }
 }

@@ -21,7 +21,7 @@ export class RegisterComponent {
       Contact: ['', [Validators.required, Validators.maxLength(10)]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
-      ProfileImage: [null], // file input field
+      ProfileImage: [null],
       terms: [false, Validators.requiredTrue]
     }, { validator: this.passwordMatchValidator });
   }

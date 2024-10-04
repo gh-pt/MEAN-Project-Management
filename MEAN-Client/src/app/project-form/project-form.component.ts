@@ -9,8 +9,8 @@ import { ProjectService } from '../service/project.service';
 })
 export class ProjectFormComponent implements OnInit {
   projectForm: FormGroup;
-  @Output() closeModalEvent = new EventEmitter<void>(); // To notify parent to close modal
-  @Output() formSubmitEvent = new EventEmitter<any>(); // Emit updated project data after submission
+  @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() formSubmitEvent = new EventEmitter<any>(); 
   @Input() projectId: object | null = null;
 
   constructor(
@@ -21,7 +21,7 @@ export class ProjectFormComponent implements OnInit {
     this.projectForm = this.fb.group({
       ProjectName: ['', Validators.required],
       Details: ['', Validators.required],
-      DemoLink: ['', [Validators.required, Validators.pattern('http?://.+')]],
+      DemoLink: ['', [Validators.required, Validators.pattern('https?://.+')]],
       GithubRepository: ['', [Validators.required, Validators.pattern('https?://.+')]],
     });
   }
@@ -79,8 +79,8 @@ export class ProjectFormComponent implements OnInit {
           next: (res) => {
             console.log('Project Successfully Updated', res);
             window.alert('Project Successfully Updated');
-            this.formSubmitEvent.emit(res); // Emit the updated project data
-            this.closeFormModal(); // Close the form modal after update
+            this.formSubmitEvent.emit(res); // Emit the newly created project data
+            this.closeFormModal();
           },
           error: (err) => {
             console.log('Error updating project:', err);
@@ -94,7 +94,7 @@ export class ProjectFormComponent implements OnInit {
             console.log('Project Successfully Registered', res);
             window.alert('Project Successfully Registered');
             this.formSubmitEvent.emit(res); // Emit the newly created project data
-            this.closeFormModal(); // Close the form modal after creation
+            this.closeFormModal();
           },
           error: (err) => {
             console.log('Error registering project:', err);

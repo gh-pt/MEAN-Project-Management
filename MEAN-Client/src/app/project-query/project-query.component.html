@@ -11,6 +11,7 @@
         <div *ngIf="!isLoading && queries.length === 0" class="text-center">
             <p>No queries found.</p>
         </div>
+
         <ol *ngIf="!isLoading && queries.length > 0" type="1" class="mb-4">
             <li *ngFor="let query of queries" class="border-b py-2 flex justify-between items-center">
                 <div>
@@ -52,6 +53,5 @@
                 Submit Query
             </button>
         </div>
-
     </form>
 </div>

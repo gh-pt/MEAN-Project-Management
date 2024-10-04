@@ -11,18 +11,21 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  // Sign In user
   signIn(data: RegisterUser): Observable<RegisterUser> {
     return this.http.post<any>(this.apiUrl + 'login', data, {
       withCredentials: true
     });
   }
 
+  // Register user
   registerUser(formData: FormData): Observable<FormData> {
     return this.http.post<FormData>(this.apiUrl, formData, {
       withCredentials: true
     });
   }
 
+  // Logout user
   logoutUser(userId: string): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(this.apiUrl + 'logout', userId, {
       withCredentials: true

@@ -49,11 +49,11 @@ export class SignInComponent {
       return;
     }
 
-    const { Email, Password } = this.SignInForm.value; // Extracting only email and password
+    const { Email, Password } = this.SignInForm.value;
 
-    const signInData = { Email, Password }; // Preparing the data to send
+    const signInData = { Email, Password };
 
-    console.log(signInData); // Optional: For debugging purposes
+    console.log(signInData);
     const obs = this.UserService.signIn(signInData)
     obs.subscribe({
       next: (res) => {

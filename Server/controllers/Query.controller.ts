@@ -4,7 +4,7 @@ import { Project } from "../models/Project.model";
 import { User } from "../models/User.model";
 import { QueryInterface } from "../interfaces/Query.interface";
 import { ObjectId } from "mongoose";
-import path from "path";
+
 
 // Create a new query
 export const addQuery = async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ export const addQuery = async (req: Request, res: Response) => {
 
         // Create a new query
         const newQuery: QueryInterface = new Query({
-            projectname: project.ProjectName, // Set projectname to the ProjectName field of the found project
+            projectname: project.ProjectName,
             query,
             replies: [],
             project: project._id,

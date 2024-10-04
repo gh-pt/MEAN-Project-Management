@@ -10,7 +10,7 @@ interface Reply {
 export interface QueryInterface extends Document {
   projectname: string;
   query: string;
-  replies: Reply[]; // Array of replies
+  replies: Reply[];
   project: ObjectId;
   userId: ObjectId;
 }

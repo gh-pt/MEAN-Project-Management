@@ -15,6 +15,7 @@ export class QueryService {
     return this.http.get<Query[]>(`${this.baseUrl}/queries`);
   }
 
+  // Get Query By Id
   getQueryById(id: object | string): Observable<Query> {
     return this.http.get<Query>(`${this.baseUrl}/getQueryById/${id}`);
   }

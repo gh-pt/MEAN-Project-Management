@@ -25,7 +25,7 @@ export class ProjectsComponent {
   loadProducts(): void {
     this.projectService.getProjects().subscribe((data: Project[]) => {
       this.projects = data;
-      this.filteredProjects = [...this.projects]; // Initially display all products
+      this.filteredProjects = [...this.projects];
     });
   }
 
@@ -40,7 +40,7 @@ export class ProjectsComponent {
           if (project && project.length > 0 && project[0] !== null) {
             this.filteredProjects = project;
           } else {
-            this.filteredProjects = []; // Set to empty array if no results
+            this.filteredProjects = [];
           }
         },
         error: (err) => {
@@ -48,13 +48,13 @@ export class ProjectsComponent {
         }
       });
     } else {
-      this.filteredProjects = [...this.projects]; // Show all projects if the search term is cleared
+      this.filteredProjects = [...this.projects];
     }
   }
 
   // Clear the search box
   clearSearch() {
-    this.searchTerm = ''; // Clear the search term
-    this.filteredProjects = [...this.projects]; // Reset to show all products
+    this.searchTerm = '';
+    this.filteredProjects = [...this.projects];
   }
 }

@@ -31,7 +31,7 @@ const addQuery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // Create a new query
         const newQuery = new Query_model_1.Query({
-            projectname: project.ProjectName, // Set projectname to the ProjectName field of the found project
+            projectname: project.ProjectName,
             query,
             replies: [],
             project: project._id,

@@ -8,7 +8,7 @@ import { Project } from '../CustomClass/project';
 })
 export class ProjectModalComponent {
   @Input() project!: Project;
-  @Output() closeModalEvent = new EventEmitter<void>(); // To notify parent to close modal
+  @Output() closeModalEvent = new EventEmitter<void>(); 
 
   // Method to close the modal
   closeModal() {
