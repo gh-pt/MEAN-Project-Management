@@ -83,7 +83,7 @@ export class DashboardComponent {
 
   // Method to clear the search
   clearSearch() {
-    this.searchTerm = ''; // Clear the search term
+    this.searchTerm = '';
     this.filteredProjects = [...this.projects]; // Reset to show all products
   }
 

@@ -7,7 +7,6 @@ import { UserService } from '../service/user.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  // Use a property to hold the image URL
   userImageUrl: string | undefined;
   userName: string | undefined;
   user = localStorage.getItem('user');
