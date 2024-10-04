@@ -19,7 +19,6 @@ export class NavbarComponent {
   ngOnInit(): void {
     if (this.user) {
       const userImage = JSON.parse(this.user)?.user?.ProfileImage;
-      console.log(userImage)
       this.userImageUrl = `data:image/jpeg;base64,${this.toBase64(userImage.data.data)}`;
       this.userName = JSON.parse(this.user)?.user?.Username;
       this.userId = JSON.parse(this.user)?.user?._id
