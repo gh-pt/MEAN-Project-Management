@@ -22,4 +22,10 @@ export class UserService {
       withCredentials: true
     });
   }
+
+  logoutUser(userId: string): Observable<RegisterUser> {
+    return this.http.post<RegisterUser>(this.apiUrl + 'logout', userId, {
+      withCredentials: true
+    })
+  }
 }

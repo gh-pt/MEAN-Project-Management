@@ -17,4 +17,6 @@ router.route('/login').post(User_controller_1.loginUser);
 router.route('/refresh-token').post(User_controller_1.refreshAccessToken);
 // Verify Token
 router.route('/verify-token').get(User_controller_1.verifyToken);
+// logout
+router.route('/logout').post(User_controller_1.logoutUser);
 exports.default = router;

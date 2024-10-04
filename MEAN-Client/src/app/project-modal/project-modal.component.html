@@ -33,6 +33,9 @@
             <p>{{ project.Owner.Username }}</p>
         </div>
 
+        <div>
+            <a routerLink="/queries/{{project._id}}" class="text-blue-500 underline">Having Queries?</a>
+        </div>
         <!-- Close Button at the Bottom -->
         <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="closeModal()">
             Close

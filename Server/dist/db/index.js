@@ -16,10 +16,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const connectionInstance = yield mongoose_1.default.connect(process.env.MONGODB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        const connectionInstance = yield mongoose_1.default.connect(process.env.MONGODB_URL);
         console.log("Connected Successfully to MongoDB Atlas! Host: " + connectionInstance.connection.host);
     }
     catch (error) {

@@ -160,7 +160,8 @@ const getQueriesByProject = (req, res) => __awaiter(void 0, void 0, void 0, func
         const { id } = req.params;
         const queries = yield Query_model_1.Query.find({ project: id })
             .populate({ path: 'project', select: 'ProjectName' })
-            .populate({ path: 'replies', select: 'reply', populate: { path: 'user', select: 'Username' } });
+            .populate({ path: 'replies', select: 'reply', populate: { path: 'user', select: 'Username' } })
+            .populate({ path: 'userId', select: 'Username' });
         res.status(200).json(queries);
     }
     catch (error) {

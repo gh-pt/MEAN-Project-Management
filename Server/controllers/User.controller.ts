@@ -255,3 +255,25 @@ export const verifyToken = async (req: Request, res: Response) => {
         res.status(401).json({ message: "Invalid or expired access token" });
     }
 };
+
+// Logout User (Clear Cookies)
+export const logoutUser = async (req: Request, res: Response) => {
+    try {
+        const userId = req.body.userId;
+
+        // Find user by id and clear refresh token from database
+        await User.updateOne(
+            { _id: userId },
+            { $set: { refreshToken: '' } } // Remove the refresh token from DB
+        );
+
+        // Clear cookies
+        res.clearCookie("accessToken", { httpOnly: true, secure: true });
+        res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+
+        res.status(200).send({ message: "Logged out successfully" });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Logout failed");
+    }
+};

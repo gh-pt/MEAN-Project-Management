@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = exports.refreshAccessToken = exports.loginUser = exports.registerUser = exports.getAllUsers = void 0;
+exports.logoutUser = exports.verifyToken = exports.refreshAccessToken = exports.loginUser = exports.registerUser = exports.getAllUsers = void 0;
 const User_model_1 = require("../models/User.model");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 require("dotenv/config");
@@ -218,3 +218,21 @@ const verifyToken = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.verifyToken = verifyToken;
+// Logout User (Clear Cookies)
+const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.body.userId;
+        // Find user by id and clear refresh token from database
+        yield User_model_1.User.updateOne({ _id: userId }, { $set: { refreshToken: '' } } // Remove the refresh token from DB
+        );
+        // Clear cookies
+        res.clearCookie("accessToken", { httpOnly: true, secure: true });
+        res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+        res.status(200).send({ message: "Logged out successfully" });
+    }
+    catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Logout failed");
+    }
+});
+exports.logoutUser = logoutUser;

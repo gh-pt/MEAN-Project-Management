@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 import { ProjectFormComponent } from './project-form/project-form.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ProjectModalComponent } from './project-modal/project-modal.component';
+import { ProjectQueryComponent } from './project-query/project-query.component';
+import { ReplyQueryComponent } from './reply-query/reply-query.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ProjectModalComponent } from './project-modal/project-modal.component';
     ProjectCardComponent,
     ProjectFormComponent,
     ProjectModalComponent,
+    ProjectQueryComponent,
+    ReplyQueryComponent,
   ],
   imports: [
     BrowserModule,

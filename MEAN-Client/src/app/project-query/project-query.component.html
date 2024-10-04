@@ -1,0 +1,57 @@
+<div class="container mx-auto px-4 flex flex-col min-h-screen justify-between">
+    <!-- Display the Project Name -->
+    <h2 class="text-2xl font-bold mb-4">Project Queries</h2>
+
+    <!-- Queries Section -->
+    <div class="flex-grow">
+        <div *ngIf="isLoading" class="text-center">
+            <p>Loading queries...</p>
+        </div>
+
+        <div *ngIf="!isLoading && queries.length === 0" class="text-center">
+            <p>No queries found.</p>
+        </div>
+        <ol *ngIf="!isLoading && queries.length > 0" type="1" class="mb-4">
+            <li *ngFor="let query of queries" class="border-b py-2 flex justify-between items-center">
+                <div>
+                    <p class="text-[11px]"><strong>&#64;
+                        </strong> {{query.userId.Username}}</p>
+                    <p [innerHTML]="query.query"></p>
+                    <p class="text-[11px]"><strong>Created At:</strong> {{ query.createdAt | date }}</p>
+                </div>
+                <div>
+                    <button type="button" routerLink="/reply/{{query._id}}"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-1.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Reply
+                    </button>
+                </div>
+            </li>
+        </ol>
+    </div>
+
+    <!-- Form for submitting new queries -->
+    <form [formGroup]="queryForm" (ngSubmit)="onSubmit()"
+        class="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 shadow-lg">
+        <div class="flex justify-center items-center gap-2">
+            <div class="w-[85%]">
+                <editor class="w-full" formControlName="query" apiKey="81h2pcaim7npiajvctk9bdqg3emnrg06d36c7k9lklz1adio"
+                    [init]="{
+                            height: 150,
+                            width: '100%',
+                            menubar: false,
+                            plugins: 'link image code',
+                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat ',
+                        }">
+                </editor>
+                <div *ngIf="queryForm.invalid && queryForm.get('query')?.touched" class="text-red-500 mt-2">
+                    Query is required and must not be empty.
+                </div>
+            </div>
+            <button type="submit" [disabled]="queryForm.invalid"
+                class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
+                Submit Query
+            </button>
+        </div>
+
+    </form>
+</div>

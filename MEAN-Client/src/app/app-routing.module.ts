@@ -5,6 +5,8 @@ import { RegisterComponent } from './register/register.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { AuthGuard } from './guards/auth-gurad.guard';
+import { ProjectQueryComponent } from './project-query/project-query.component';
+import { ReplyQueryComponent } from './reply-query/reply-query.component';
 
 const routes: Routes = [
   {
@@ -14,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -28,6 +31,16 @@ const routes: Routes = [
     path: 'projects',
     component: ProjectsComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'queries/:id',
+    component: ProjectQueryComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'reply/:id',
+    component: ReplyQueryComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
@@ -36,3 +49,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

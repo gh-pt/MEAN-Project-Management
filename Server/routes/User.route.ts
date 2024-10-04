@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { getAllUsers, loginUser, refreshAccessToken, registerUser, verifyToken } from '../controllers/User.controller';
+import { getAllUsers, loginUser, logoutUser, refreshAccessToken, registerUser, verifyToken } from '../controllers/User.controller';
 import upload from '../middlewares/upload.middleware';
 
 const router = express.Router();
@@ -19,4 +19,6 @@ router.route('/refresh-token').post(refreshAccessToken);
 // Verify Token
 router.route('/verify-token').get(verifyToken);
 
+// logout
+router.route('/logout').post(logoutUser);
 export default router;

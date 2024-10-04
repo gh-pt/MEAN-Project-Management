@@ -168,7 +168,8 @@ export const getQueriesByProject = async (req: Request, res: Response) => {
         const { id } = req.params;
         const queries = await Query.find({ project: id })
             .populate({ path: 'project', select: 'ProjectName' })
-            .populate({ path: 'replies', select: 'reply', populate: { path: 'user', select: 'Username' } });
+            .populate({ path: 'replies', select: 'reply', populate: { path: 'user', select: 'Username' } })
+            .populate({ path: 'userId', select: 'Username' });
         res.status(200).json(queries);
     } catch (error) {
         console.error(error);

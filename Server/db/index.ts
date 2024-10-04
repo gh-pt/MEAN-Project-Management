@@ -3,10 +3,7 @@ import 'dotenv/config';
 
 const connectDB = async (): Promise<void> => {
     try {
-        const connectionInstance = await mongoose.connect(process.env.MONGODB_URL as string, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        } as ConnectOptions);
+        const connectionInstance = await mongoose.connect(process.env.MONGODB_URL as string);
 
         console.log("Connected Successfully to MongoDB Atlas! Host: " + connectionInstance.connection.host);
     } catch (error) {

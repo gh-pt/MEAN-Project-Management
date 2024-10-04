@@ -17,7 +17,7 @@ export class ProjectService {
   }
 
   // Get a single product by ID
-  getProjectById(id: object): Observable<Project> {
+  getProjectById(id: object | string): Observable<Project> {
     const url = `${this.apiUrl + 'getProjectById'}/${id}`;
     return this.http.get<Project>(url);
   }
