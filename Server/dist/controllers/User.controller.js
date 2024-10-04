@@ -57,6 +57,14 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.status(409).send("User with email or username already exists");
             return;
         }
+        // Handling the uploaded ProfileImage
+        let profileImageBuffer = null;
+        let profileImageMimeType = null;
+        // Check if a file was uploaded
+        if (req.file) {
+            profileImageBuffer = req.file.buffer; // Image stored in buffer format
+            profileImageMimeType = req.file.mimetype; // MIME type (e.g., image/png)
+        }
         // generate hashedPassword
         const hashedPassword = yield bcryptjs_1.default.hash(Password, 10);
         // create user
@@ -66,7 +74,10 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             Contact,
             Password: hashedPassword,
             ConfirmPassword: hashedPassword,
-            ProfileImage,
+            ProfileImage: {
+                data: profileImageBuffer, // Store the image buffer in MongoDB
+                contentType: profileImageMimeType, // Store the image MIME type
+            },
         }).save();
         // Generate the accessToken and refreshToken
         const { accessToken, refreshToken } = generateTokens(user._id);
@@ -75,14 +86,17 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 refreshToken
             }
         });
+        const RegisteredUser = yield User_model_1.User.findById(user._id).select("-Password -ConfirmPassword -refreshToken");
         // send the response and cookies
         res
             .status(201)
             .cookie("accessToken", accessToken, cookieOptions)
             .cookie("refreshToken", refreshToken, cookieOptions)
-            .send({
-            message: "User Registered Successfully",
-            user: Object.assign(Object.assign({}, user.toObject()), { password: undefined }),
+            .json({
+            user: RegisteredUser,
+            accessToken,
+            refreshToken,
+            status: "User Successfully Registered",
         });
     }
     catch (error) {
@@ -121,7 +135,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 refreshToken
             }
         });
-        const loggedInUser = yield User_model_1.User.findById(user._id).select("-Password -refreshToken");
+        const loggedInUser = yield User_model_1.User.findById(user._id).select("-Password -ConfirmPassword -refreshToken");
         res
             .status(201)
             .cookie("accessToken", accessToken, cookieOptions)

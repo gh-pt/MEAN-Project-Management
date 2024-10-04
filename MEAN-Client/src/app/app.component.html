@@ -1,0 +1,4 @@
+<app-navbar *ngIf="!isLoginOrRegister()"></app-navbar>
+<div class="main min-h-screen container mx-auto py-10" [ngClass]="{'login-register': isLoginOrRegister()}">
+  <router-outlet></router-outlet>
+</div>

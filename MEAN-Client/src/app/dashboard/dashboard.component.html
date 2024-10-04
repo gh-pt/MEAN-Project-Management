@@ -1,0 +1,37 @@
+<div class="flex flex-col sm:flex-row items-center justify-between px-6">
+    <div class="flex items-center gap-2">
+        <input type="text" placeholder="Search..." [(ngModel)]="searchTerm"
+            class="w-full rounded-md outline-none border border-black py-1 px-2 text-black relative" />
+        <!-- Clear button -->
+        <button *ngIf="searchTerm" (click)="clearSearch()"
+            class="absolute text-black left-[25%] hover:text-gray-900 text-2xl">
+            &times; <!-- Cross icon -->
+        </button>
+        <!-- Search button -->
+        <button (click)="onSearch()"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 ">
+            Search
+        </button>
+    </div>
+    <div class="flex items-center">
+        <button (click)="openFormModal()"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
+            Add project
+        </button>
+    </div>
+</div>
+<!-- Conditionally show the modal when isModalOpen is true -->
+<app-project-form *ngIf="isFormModalOpen" [projectId]="selectedProjectId" (closeModalEvent)="closeFormModal()"
+    (formSubmitEvent)="handleFormSubmit($event)"></app-project-form>
+
+<div *ngIf="filteredProjects.length === 0" class="text-center text-2xl">No Project Yet</div>
+
+<div *ngIf="filteredProjects.length > 0">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 p-6">
+        <div *ngFor="let project of filteredProjects">
+            <!-- Pass product data to the ProductCard component -->
+            <app-project-card [project]="project" (emitter)="deleteProject($event)"
+                (editProjectEvent)="openEditForm($event)"></app-project-card>
+        </div>
+    </div>
+</div>

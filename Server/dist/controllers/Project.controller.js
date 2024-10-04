@@ -57,7 +57,7 @@ const getProjectByName = (req, res) => __awaiter(void 0, void 0, void 0, functio
             path: "Owner",
             select: "Username",
         });
-        res.status(200).json(project);
+        res.status(200).json([project]);
     }
     catch (error) {
         res.status(500).send(error);

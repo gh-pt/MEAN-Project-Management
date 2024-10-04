@@ -1,0 +1,11 @@
+:host {
+    display: block;
+    min-height: 100%;
+    border: 1px solid yellow;
+}
+
+.login-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

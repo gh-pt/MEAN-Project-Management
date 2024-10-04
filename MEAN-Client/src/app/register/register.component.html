@@ -1,0 +1,83 @@
+<div class="max-w-[500px] border-2 border-gray-300 rounded-lg p-5 m-auto">
+    <h5 class="mb-5 text-2xl font-bold text-gray-900 dark:text-white text-center">Sign Up</h5>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="max-w-sm mx-auto">
+        <div class="mb-5">
+            <label for="Username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+            <input type="text" id="Username" formControlName="Username"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                placeholder="Username" required />
+            <div *ngIf="signupForm.get('Username')?.invalid && signupForm.get('Username')?.touched"
+                class="text-red-500">
+                Name is required and should be at least 3 characters.
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <label for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="email" id="Email" formControlName="Email"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                placeholder="name@MEAN-APP.com" required />
+            <div *ngIf="signupForm.get('Email')?.invalid && signupForm.get('Email')?.touched" class="text-red-500">
+                Enter a valid email.
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <label for="Contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact</label>
+            <input type="number" id="Contact" formControlName="Contact"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                placeholder="1234567890" required />
+            <div *ngIf="signupForm.get('Contact')?.invalid && signupForm.get('Contact')?.touched" class="text-red-500">
+                Contact should be 10 digits.
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <label for="Password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <input type="password" id="Password" formControlName="Password"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                required />
+            <div *ngIf="signupForm.get('Password')?.invalid && signupForm.get('Password')?.touched"
+                class="text-red-500">
+                Password must be at least 6 characters long.
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <label for="ConfirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
+                Password</label>
+            <input type="password" id="ConfirmPassword" formControlName="ConfirmPassword"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                required />
+            <div *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('ConfirmPassword')?.touched"
+                class="text-red-500">
+                Passwords do not match.
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="ProfileImage">Upload
+                file</label>
+            <input
+                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                aria-describedby="ProfileImage_help" id="ProfileImage" type="file" (change)="onFileChange($event)">
+            <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="ProfileImage_help">A profile picture is
+                useful
+                to confirm you are logged into your account.
+            </div>
+        </div>
+
+        <div class="flex items-start mb-5">
+            <div class="flex items-center h-5">
+                <input id="terms" type="checkbox" formControlName="terms"
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:bg-gray-700" required />
+            </div>
+            <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a
+                    href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
+        </div>
+
+        <button type="submit" [disabled]="signupForm.invalid"
+            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register
+            new account</button>
+    </form>
+</div>

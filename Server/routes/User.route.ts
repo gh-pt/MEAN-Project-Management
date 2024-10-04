@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
 import { getAllUsers, loginUser, refreshAccessToken, registerUser, verifyToken } from '../controllers/User.controller';
+import upload from '../middlewares/upload.middleware';
 
 const router = express.Router();
 
 // Register User
-router.post('/', registerUser);
+router.post('/', upload.single('ProfileImage'), registerUser);
 
 // Get all Users
 router.get('/', getAllUsers);

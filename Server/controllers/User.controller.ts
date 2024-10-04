@@ -5,7 +5,6 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 
-
 // Define a type for the JWT payload
 interface JwtPayload {
     _id: string;
@@ -57,6 +56,16 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
+        // Handling the uploaded ProfileImage
+        let profileImageBuffer = null;
+        let profileImageMimeType = null;
+
+        // Check if a file was uploaded
+        if (req.file) {
+            profileImageBuffer = req.file.buffer; // Image stored in buffer format
+            profileImageMimeType = req.file.mimetype; // MIME type (e.g., image/png)
+        }
+
         // generate hashedPassword
         const hashedPassword = await bcrypt.hash(Password, 10);
 
@@ -67,7 +76,10 @@ export const registerUser = async (req: Request, res: Response) => {
             Contact,
             Password: hashedPassword,
             ConfirmPassword: hashedPassword,
-            ProfileImage,
+            ProfileImage: {
+                data: profileImageBuffer, // Store the image buffer in MongoDB
+                contentType: profileImageMimeType, // Store the image MIME type
+            },
         }).save();
 
         // Generate the accessToken and refreshToken
@@ -81,15 +93,19 @@ export const registerUser = async (req: Request, res: Response) => {
                 }
             }
         )
-
+        const RegisteredUser = await User.findById(user._id).select(
+            "-Password -ConfirmPassword -refreshToken"
+        );
         // send the response and cookies
         res
             .status(201)
             .cookie("accessToken", accessToken, cookieOptions)
             .cookie("refreshToken", refreshToken, cookieOptions)
-            .send({
-                message: "User Registered Successfully",
-                user: { ...user.toObject(), password: undefined },
+            .json({
+                user: RegisteredUser,
+                accessToken,
+                refreshToken,
+                status: "User Successfully Registered",
             });
     } catch (error) {
         console.error("Error:", error);
@@ -138,7 +154,7 @@ export const loginUser = async (req: Request, res: Response) => {
             }
         )
         const loggedInUser = await User.findById(user._id).select(
-            "-Password -refreshToken"
+            "-Password -ConfirmPassword -refreshToken"
         );
 
         res

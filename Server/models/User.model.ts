@@ -9,7 +9,10 @@ const userSchema: Schema = new Schema(
         Contact: { type: Number, required: true, unique: true },
         Password: { type: String, required: true },
         ConfirmPassword: { type: String, required: true },
-        ProfileImage: { type: String },
+        ProfileImage: {
+            data: Buffer, // Store image data as Buffer
+            contentType: String,
+        },
         refreshToken: { type: String }
     },
     { timestamps: true }

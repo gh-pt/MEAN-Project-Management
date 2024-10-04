@@ -1,0 +1,41 @@
+<div class="modal fixed inset-0 bg-[#38363675] flex items-center justify-center">
+    <div class="relative bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full dark:bg-gray-800 dark:text-white">
+        <!-- Close Button -->
+        <button class="absolute right-4 top-4 text-2xl" (click)="closeModal()">
+            &#x274c;
+        </button>
+
+        <!-- Project Title -->
+        <h2 class="text-2xl font-bold mb-4">{{ project.ProjectName }}</h2>
+
+        <!-- Display Project Details -->
+        <div class="mb-4">
+            <strong>Details:</strong>
+            <div [innerHTML]="project.Details"></div>
+        </div>
+
+        <!-- Demo Link -->
+        <div class="mb-4">
+            <strong>Demo Link:</strong>
+            <a [href]="project.DemoLink" target="_blank" class="text-blue-500 underline">{{ project.DemoLink }}</a>
+        </div>
+
+        <!-- GitHub Repository -->
+        <div class="mb-4">
+            <strong>Github Repository:</strong>
+            <a [href]="project.GithubRepository" target="_blank" class="text-blue-500 underline">{{
+                project.GithubRepository }}</a>
+        </div>
+
+        <!-- Owner -->
+        <div class="mb-4">
+            <strong>Owner:</strong>
+            <p>{{ project.Owner.Username }}</p>
+        </div>
+
+        <!-- Close Button at the Bottom -->
+        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</div>

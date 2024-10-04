@@ -54,7 +54,7 @@ export const getProjectByName = async (
         path: "Owner",
         select: "Username",
       });
-    res.status(200).json(project);
+    res.status(200).json([project]);
   } catch (error) {
     res.status(500).send(error);
   }

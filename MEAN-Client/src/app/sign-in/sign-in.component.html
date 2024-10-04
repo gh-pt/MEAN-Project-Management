@@ -1,0 +1,69 @@
+<div class="max-w-sm border-2 border-gray-300 rounded-lg p-5 m-auto">
+    <h5 class="mb-5 text-2xl font-bold text-gray-900 dark:text-white text-center">Sign in</h5>
+    <form class="max-w-sm mx-auto" [formGroup]="SignInForm" (ngSubmit)="onSubmit()">
+        <!-- Email Field -->
+        <div class="mb-5">
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="email" id="email" formControlName="Email"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="name@flowbite.com" required />
+            <div *ngIf="SignInForm.controls['Email'].invalid && SignInForm.controls['Email'].touched"
+                class="text-red-500 text-sm">
+                <span *ngIf="SignInForm.controls['Email'].errors?.['required']">Email is required</span>
+                <span *ngIf="SignInForm.controls['Email'].errors?.['email']">Invalid email format</span>
+            </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-5">
+            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <input type="password" id="password" formControlName="Password"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                required />
+            <div *ngIf="SignInForm.controls['Password'].invalid && SignInForm.controls['Password'].touched"
+                class="text-red-500 text-sm">
+                <span *ngIf="SignInForm.controls['Password'].errors?.['required']">Password is required</span>
+                <span *ngIf="SignInForm.controls['Password'].errors?.['minlength']">Password must be at least 6
+                    characters</span>
+            </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-5">
+            <label for="repeat-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
+                Password</label>
+            <input type="password" id="repeat-password" formControlName="repeatPassword"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                required />
+            <div *ngIf="SignInForm.controls['repeatPassword'].invalid && SignInForm.controls['repeatPassword'].touched"
+                class="text-red-500 text-sm">
+                <span *ngIf="SignInForm.controls['repeatPassword'].errors?.['required']">Confirm Password is
+                    required</span>
+                <span *ngIf="SignInForm.controls['repeatPassword'].errors?.['passwordMismatch']">Passwords do not
+                    match</span>
+            </div>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="flex items-start mb-5">
+            <div class="flex items-center h-5">
+                <input id="terms" type="checkbox" formControlName="terms"
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+                    required />
+            </div>
+            <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a
+                    href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
+        </div>
+        <div *ngIf="SignInForm.controls['terms'].invalid && SignInForm.controls['terms'].touched"
+            class="text-red-500 text-sm mb-5">
+            You must agree to the terms and conditions
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            [disabled]="SignInForm.invalid">
+            Register new account
+        </button>
+    </form>
+</div>

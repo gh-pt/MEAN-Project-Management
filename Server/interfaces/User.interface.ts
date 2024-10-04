@@ -7,6 +7,6 @@ export interface UserInterface extends Document {
   Contact: Number;
   Password: string;
   ConfirmPassword: string;
-  ProfileImage: string;
+  ProfileImage: File;
   refreshToken: string;
 }

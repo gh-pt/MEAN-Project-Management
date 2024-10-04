@@ -1,0 +1,27 @@
+<div class="max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ project.ProjectName }}</h5>
+
+    <!-- Show partial project details -->
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" [innerHTML]="project.Details | slice:0:100"></p>
+
+    <button (click)="openModal()"
+        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
+        Read more
+    </button>
+
+    <!-- Show Edit and Delete buttons only if the current URL contains '/dashboard' -->
+    <button *ngIf="isDashboard" (click)="editProject()"
+        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-blue-800 ml-4">
+        Edit
+    </button>
+
+    <button *ngIf="isDashboard" (click)="emitter.emit(project._id)"
+        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 ml-4">
+        Delete
+    </button>
+
+
+    <!-- Conditionally show the modal when isModalOpen is true -->
+    <app-project-modal *ngIf="isModalOpen" [project]="selectedProject" (closeModalEvent)="closeModal()">
+    </app-project-modal>
+</div>
