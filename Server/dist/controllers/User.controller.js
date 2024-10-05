@@ -79,23 +79,18 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 contentType: profileImageMimeType, // Store the image MIME type
             },
         }).save();
-        // Generate the accessToken and refreshToken
-        const { accessToken, refreshToken } = generateTokens(user._id);
-        yield User_model_1.User.updateOne({ _id: user._id }, {
-            $set: {
-                refreshToken
-            }
-        });
-        const RegisteredUser = yield User_model_1.User.findById(user._id).select("-Password -ConfirmPassword -refreshToken");
+        const RegisteredUser = {
+            _id: user._id,
+            Username: user.Username,
+            Email: user.Email,
+            Contact: user.Contact,
+            ProfileImage: user.ProfileImage,
+        };
         // send the response and cookies
         res
             .status(201)
-            .cookie("accessToken", accessToken, cookieOptions)
-            .cookie("refreshToken", refreshToken, cookieOptions)
             .json({
             user: RegisteredUser,
-            accessToken,
-            refreshToken,
             status: "User Successfully Registered",
         });
     }
@@ -130,12 +125,16 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
-        yield User_model_1.User.updateOne({ _id: user._id }, {
-            $set: {
-                refreshToken
-            }
-        });
-        const loggedInUser = yield User_model_1.User.findById(user._id).select("-Password -ConfirmPassword -refreshToken");
+        // Add refreshToken to the user object without making another DB call
+        user.refreshToken = refreshToken;
+        yield user.save(); // Save the updated refreshToken directly to the user document
+        const loggedInUser = {
+            _id: user._id,
+            Username: user.Username,
+            Email: user.Email,
+            Contact: user.Contact,
+            ProfileImage: user.ProfileImage,
+        };
         res
             .status(201)
             .cookie("accessToken", accessToken, cookieOptions)
@@ -173,11 +172,9 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
             return;
         }
         const { accessToken, refreshToken } = generateTokens(user._id);
-        yield User_model_1.User.updateOne({ _id: user._id }, {
-            $set: {
-                refreshToken
-            }
-        });
+        // Add refreshToken to the user object without making another DB call
+        user.refreshToken = refreshToken;
+        yield user.save();
         res
             .status(200)
             .cookie("accessToken", accessToken, cookieOptions)

@@ -31,7 +31,8 @@ export class NavbarComponent {
   }
 
   onLogout() {
-    const obs = this.UserService.logoutUser(this.userId);
+    const user = { userId: this.userId };
+    const obs = this.UserService.logoutUser(user);
     obs.subscribe({
       next: (res) => {
         console.log(`User Successfully Logout`, res);

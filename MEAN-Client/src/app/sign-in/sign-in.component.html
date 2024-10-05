@@ -28,35 +28,10 @@
             </div>
         </div>
 
-        <!-- Confirm Password Field -->
-        <div class="mb-5">
-            <label for="repeat-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
-                Password</label>
-            <input type="password" id="repeat-password" formControlName="repeatPassword"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                required />
-            <div *ngIf="SignInForm.controls['repeatPassword'].invalid && SignInForm.controls['repeatPassword'].touched"
-                class="text-red-500 text-sm">
-                <span *ngIf="SignInForm.controls['repeatPassword'].errors?.['required']">Confirm Password is
-                    required</span>
-                <span *ngIf="SignInForm.controls['repeatPassword'].errors?.['passwordMismatch']">Passwords do not
-                    match</span>
-            </div>
-        </div>
-
-        <!-- Terms Checkbox -->
-        <div class="flex items-start mb-5">
-            <div class="flex items-center h-5">
-                <input id="terms" type="checkbox" formControlName="terms"
-                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
-                    required />
-            </div>
-            <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a
-                    href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
-        </div>
-        <div *ngIf="SignInForm.controls['terms'].invalid && SignInForm.controls['terms'].touched"
-            class="text-red-500 text-sm mb-5">
-            You must agree to the terms and conditions
+        <!-- Display the error message in an alert box -->
+        <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+            role="alert">
+            {{ errorMessage }}
         </div>
 
         <div class="mb-2">
