@@ -26,7 +26,7 @@ export class UserService {
   }
 
   // Logout user
-  logoutUser(userId: string): Observable<RegisterUser> {
+  logoutUser(userId: object): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(this.apiUrl + 'logout', userId, {
       withCredentials: true
     })

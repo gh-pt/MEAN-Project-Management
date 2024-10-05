@@ -82,29 +82,18 @@ export const registerUser = async (req: Request, res: Response) => {
             },
         }).save();
 
-        // Generate the accessToken and refreshToken
-        const { accessToken, refreshToken } = generateTokens(user._id);
-
-        await User.updateOne(
-            { _id: user._id },
-            {
-                $set: {
-                    refreshToken
-                }
-            }
-        )
-        const RegisteredUser = await User.findById(user._id).select(
-            "-Password -ConfirmPassword -refreshToken"
-        );
+        const RegisteredUser = {
+            _id: user._id,
+            Username: user.Username,
+            Email: user.Email,
+            Contact: user.Contact,
+            ProfileImage: user.ProfileImage,
+        }
         // send the response and cookies
         res
             .status(201)
-            .cookie("accessToken", accessToken, cookieOptions)
-            .cookie("refreshToken", refreshToken, cookieOptions)
             .json({
                 user: RegisteredUser,
-                accessToken,
-                refreshToken,
                 status: "User Successfully Registered",
             });
     } catch (error) {
@@ -145,17 +134,17 @@ export const loginUser = async (req: Request, res: Response) => {
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
 
-        await User.updateOne(
-            { _id: user._id },
-            {
-                $set: {
-                    refreshToken
-                }
-            }
-        )
-        const loggedInUser = await User.findById(user._id).select(
-            "-Password -ConfirmPassword -refreshToken"
-        );
+        // Add refreshToken to the user object without making another DB call
+        user.refreshToken = refreshToken;
+        await user.save();  // Save the updated refreshToken directly to the user document
+
+        const loggedInUser = {
+            _id: user._id,
+            Username: user.Username,
+            Email: user.Email,
+            Contact: user.Contact,
+            ProfileImage: user.ProfileImage,
+        };
 
         res
             .status(201)
@@ -172,6 +161,7 @@ export const loginUser = async (req: Request, res: Response) => {
         res.status(500).send(error);
     }
 };
+
 
 // Refresh Token
 export const refreshAccessToken = async (req: Request, res: Response) => {
@@ -203,14 +193,10 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 
         const { accessToken, refreshToken } = generateTokens(user._id);
 
-        await User.updateOne(
-            { _id: user._id },
-            {
-                $set: {
-                    refreshToken
-                }
-            }
-        )
+        // Add refreshToken to the user object without making another DB call
+        user.refreshToken = refreshToken;
+        await user.save();
+
         res
             .status(200)
             .cookie("accessToken", accessToken, cookieOptions)

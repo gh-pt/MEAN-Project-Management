@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   signupForm: FormGroup;
+  errorMessage: string = ''; // To store error messages
 
   constructor(
     private formBuilder: FormBuilder,
@@ -18,7 +19,7 @@ export class RegisterComponent {
     this.signupForm = this.formBuilder.group({
       Username: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
-      Contact: ['', [Validators.required, Validators.maxLength(10)]],
+      Contact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
       ProfileImage: [null],
@@ -34,6 +35,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.signupForm.invalid) {
+      this.errorMessage = "Please fill out all required fields correctly.";
       return;
     }
 
@@ -50,19 +52,28 @@ export class RegisterComponent {
       formData.append('ProfileImage', fileInput);
     }
 
-    console.log(formData);
+    // Reset error message
+    this.errorMessage = '';
+
     const obs = this.UserService.registerUser(formData);
     obs.subscribe({
       next: (res) => {
         console.log(`User Successfully Registered`, res);
         window.alert(`User Successfully Registered`);
-        localStorage.setItem("isLogin", "true");
-        localStorage.setItem("user", JSON.stringify(res));
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/login']);
       },
       error: (err) => {
+        // Handle backend errors and set appropriate error messages
+        if (err.status === 409) {
+          this.errorMessage = "User with this email or username already exists.";
+        } else if (err.status === 400) {
+          this.errorMessage = "Bad request. Please check the entered details.";
+        } else if (err.status === 500) {
+          this.errorMessage = "Server error. Please try again later.";
+        } else {
+          this.errorMessage = "Something went wrong while registering.";
+        }
         console.log(err);
-        window.alert("Something went wrong while Registering...");
       }
     });
   }
