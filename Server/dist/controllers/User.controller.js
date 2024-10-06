@@ -54,8 +54,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             $or: [{ Username }, { Email }],
         });
         if (existedUser) {
-            res.status(409).send("User with email or username already exists");
-            return;
+            return res.status(409).send("User with email or username already exists");
         }
         // Handling the uploaded ProfileImage
         let profileImageBuffer = null;
@@ -106,22 +105,19 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { Email, Username, Password } = req.body;
         // check for required fields
         if (!Username && !Email) {
-            res.status(400).send("Username or email is required!");
-            return;
+            return res.status(400).send("Username or email is required!");
         }
         // find the user
         const user = yield User_model_1.User.findOne({
             $or: [{ Username }, { Email }],
         });
         if (!user) {
-            res.status(404).send("User not found");
-            return;
+            return res.status(404).send("User not found");
         }
         // Validate the password
         const isMatch = yield bcryptjs_1.default.compare(Password, user.Password);
         if (!isMatch) {
-            res.status(400).send({ message: "Invalid credentials" });
-            return;
+            return res.status(400).send({ message: "Invalid credentials" });
         }
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
@@ -164,15 +160,14 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
         const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id);
         if (!user) {
-            res.status(401).send("Invalid refresh token");
-            return;
+            return res.status(401).send("Invalid refresh token");
         }
         if (incomingRefreshToken !== user.refreshToken) {
             res.status(401).send("Refresh token is expired or used");
             return;
         }
         const { accessToken, refreshToken } = generateTokens(user._id);
-        // Add refreshToken to the user object without making another DB call
+        // Add refreshToken to the user object 
         user.refreshToken = refreshToken;
         yield user.save();
         res
@@ -198,14 +193,12 @@ const verifyToken = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const token = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken) ||
             ((_b = req.header("Authorization")) === null || _b === void 0 ? void 0 : _b.replace("Bearer ", ""));
         if (!token) {
-            res.status(401).send("Unauthorized request");
-            return;
+            return res.status(401).send("Unauthorized request");
         }
         const decodedToken = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id).select("-password -refreshToken");
         if (!user) {
-            res.status(401).send("Invalid Access Token");
-            return;
+            return res.status(401).send("Invalid Access Token");
         }
         res.status(200).json({ message: "Valid User", User: user });
     }
@@ -223,8 +216,8 @@ const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         yield User_model_1.User.updateOne({ _id: userId }, { $set: { refreshToken: '' } } // Remove the refresh token from DB
         );
         // Clear cookies
-        res.clearCookie("accessToken", { httpOnly: true, secure: true });
-        res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
         res.status(200).send({ message: "Logged out successfully" });
     }
     catch (error) {

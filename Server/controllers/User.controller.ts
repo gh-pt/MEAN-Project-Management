@@ -52,8 +52,8 @@ export const registerUser = async (req: Request, res: Response) => {
         });
 
         if (existedUser) {
-            res.status(409).send("User with email or username already exists");
-            return;
+            return res.status(409).send("User with email or username already exists");
+
         }
 
         // Handling the uploaded ProfileImage
@@ -109,8 +109,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // check for required fields
         if (!Username && !Email) {
-            res.status(400).send("Username or email is required!");
-            return;
+            return res.status(400).send("Username or email is required!");
         }
 
         // find the user
@@ -119,16 +118,14 @@ export const loginUser = async (req: Request, res: Response) => {
         });
 
         if (!user) {
-            res.status(404).send("User not found");
-            return;
+            return res.status(404).send("User not found");
         }
 
         // Validate the password
         const isMatch = await bcrypt.compare(Password, user.Password);
 
         if (!isMatch) {
-            res.status(400).send({ message: "Invalid credentials" });
-            return;
+            return res.status(400).send({ message: "Invalid credentials" });
         }
 
         // generate the Tokens
@@ -182,8 +179,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
         const user = await User.findById(decodedToken?._id);
 
         if (!user) {
-            res.status(401).send("Invalid refresh token");
-            return;
+            return res.status(401).send("Invalid refresh token");
         }
 
         if (incomingRefreshToken !== user.refreshToken) {
@@ -193,7 +189,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 
         const { accessToken, refreshToken } = generateTokens(user._id);
 
-        // Add refreshToken to the user object without making another DB call
+        // Add refreshToken to the user object 
         user.refreshToken = refreshToken;
         await user.save();
 
@@ -220,8 +216,7 @@ export const verifyToken = async (req: Request, res: Response) => {
             req.header("Authorization")?.replace("Bearer ", "");
 
         if (!token) {
-            res.status(401).send("Unauthorized request");
-            return;
+            return res.status(401).send("Unauthorized request");
         }
 
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
@@ -231,8 +226,7 @@ export const verifyToken = async (req: Request, res: Response) => {
         );
 
         if (!user) {
-            res.status(401).send("Invalid Access Token");
-            return;
+            return res.status(401).send("Invalid Access Token");
         }
 
         res.status(200).json({ message: "Valid User", User: user });
@@ -254,8 +248,8 @@ export const logoutUser = async (req: Request, res: Response) => {
         );
 
         // Clear cookies
-        res.clearCookie("accessToken", { httpOnly: true, secure: true });
-        res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
 
         res.status(200).send({ message: "Logged out successfully" });
     } catch (error) {

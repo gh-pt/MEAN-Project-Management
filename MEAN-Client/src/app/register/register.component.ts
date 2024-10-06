@@ -19,7 +19,12 @@ export class RegisterComponent {
     this.signupForm = this.formBuilder.group({
       Username: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
-      Contact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      Contact: ['', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),  // Only numbers allowed
+        Validators.minLength(10),        // Minimum length is 10
+        Validators.maxLength(10)         // Maximum length is 10
+      ]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
       ProfileImage: [null],

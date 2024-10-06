@@ -1,7 +1,7 @@
-<div class="modal fixed inset-0 bg-[#38363675] flex justify-center overflow-y-auto">
+<div class="modal fixed inset-0 bg-[#38363675] flex justify-center overflow-y-auto py-4">
     <div class="relative bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full h-fit dark:bg-gray-800 dark:text-white">
         <!-- Close Button -->
-        <button class="absolute right-4 top-4 text-2xl" (click)="closeFormModal()">
+        <button class="absolute right-4 top-4 text-xl" (click)="closeFormModal()">
             &#x274c;
         </button>
 
@@ -22,10 +22,10 @@
             <div class="mb-4">
                 <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
                 <editor formControlName="Details" apiKey="81h2pcaim7npiajvctk9bdqg3emnrg06d36c7k9lklz1adio" [init]="{
-            height: 300,
+            height: 400,
             menubar: false,
             plugins: 'link image code',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat ',
+            toolbar: 'undo redo | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat ',
         }">
                 </editor>
                 <div *ngIf="projectForm.get('Details')?.invalid && projectForm.get('Details')?.touched"
@@ -52,7 +52,7 @@
                     required />
                 <div *ngIf="projectForm.get('GithubRepository')?.invalid && projectForm.get('GithubRepository')?.touched"
                     class="text-red-500">
-                    Enter a valid URL.
+                    Enter a valid Github Link only.
                 </div>
             </div>
 

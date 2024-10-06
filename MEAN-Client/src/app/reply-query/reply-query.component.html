@@ -29,11 +29,11 @@
             <div class="w-[85%]">
                 <editor class="w-full" formControlName="reply" apiKey="81h2pcaim7npiajvctk9bdqg3emnrg06d36c7k9lklz1adio"
                     [init]="{
-                            height: 150,
+                            height: 130,
                             width: '100%',
                             menubar: false,
                             plugins: 'link image code',
-                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat ',
+                            toolbar: 'undo redo | bold italic underline strikethrough | spellcheckdialog a11ycheck typography | removeformat ',
                         }">
                 </editor>
                 <div *ngIf="queryForm.invalid && queryForm.get('reply')?.touched" class="text-red-500 mt-2">
@@ -41,9 +41,8 @@
                 </div>
             </div>
             <button type="submit" [disabled]="queryForm.invalid"
-                class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
-                Submit Query
-            </button>
+                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-500">
+                <i class="ri-send-plane-line"></i></button>
         </div>
 
     </form>

@@ -7,19 +7,26 @@ import { UserService } from '../service/user.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  userImageUrl: string | undefined;
-  userName: string | undefined;
+  userName: string | null = null;
+  userImageUrl: string | null = null;
   user = localStorage.getItem('user');
   userId: string = '';
+  dropdownOpen = false;
+
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
 
   constructor(private UserService: UserService) {
 
   }
+
   ngOnInit(): void {
     if (this.user) {
       const userImage = JSON.parse(this.user)?.user?.ProfileImage;
-      this.userImageUrl = `data:image/jpeg;base64,${this.toBase64(userImage.data.data)}`;
-      this.userName = JSON.parse(this.user)?.user?.Username;
+      this.userImageUrl = `data:image/jpeg;base64,${this.toBase64(userImage.data.data)}` || 'favicon.ico';
+      this.userName = JSON.parse(this.user)?.user?.Username || 'user';
       this.userId = JSON.parse(this.user)?.user?._id
     }
   }
