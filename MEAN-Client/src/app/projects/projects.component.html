@@ -16,17 +16,19 @@
         </button>
     </div>
 </div>
-<!-- Display message if no projects found after searching -->
-<div *ngIf="filteredProjects.length === 0 && searchTerm" class="text-center text-2xl">No Projects Found</div>
 
-<div *ngIf="filteredProjects.length > 0">
+<!-- If no projects found, show a message -->
+<div *ngIf="(filteredProjects | searchProject: searchTerm).length === 0 && searchTerm" class="text-center text-2xl">
+    No Projects Found
+</div>
+
+<!-- If projects exist, display them -->
+<div *ngIf="(filteredProjects | searchProject: searchTerm).length > 0">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 p-6">
-        <div *ngFor="let project of filteredProjects">
-            <!-- Pass project data to the ProjectCard component -->
-            <app-project-card [project]="project"></app-project-card>
+        <!-- Filtered projects will be displayed here using the pipe -->
+        <div *ngFor="let project of filteredProjects | searchProject: searchTerm">
+            <app-project-card [project]="project">
+            </app-project-card>
         </div>
     </div>
 </div>
-
-<!-- Display message if no projects yet and no search term -->
-<div *ngIf="filteredProjects.length === 0 && !searchTerm" class="text-center text-2xl">No Project Yet</div>

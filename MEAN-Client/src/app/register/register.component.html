@@ -1,6 +1,15 @@
 <div class="max-w-[500px] border-2 border-gray-300 rounded-lg p-5 m-auto">
     <h5 class="mb-5 text-2xl font-bold text-gray-900 dark:text-white text-center">Sign Up</h5>
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="max-w-sm mx-auto">
+
+        <!-- Show error message as an alert -->
+        <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5"
+            role="alert">
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline">{{ errorMessage }}</span>
+        </div>
+
+        <!-- Username Field -->
         <div class="mb-5">
             <label for="Username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
             <input type="text" id="Username" formControlName="Username"
@@ -12,6 +21,7 @@
             </div>
         </div>
 
+        <!-- Email Field -->
         <div class="mb-5">
             <label for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input type="email" id="Email" formControlName="Email"
@@ -22,6 +32,7 @@
             </div>
         </div>
 
+        <!-- Contact Field -->
         <div class="mb-5">
             <label for="Contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact</label>
             <input type="text" id="Contact" formControlName="Contact"
@@ -32,6 +43,7 @@
             </div>
         </div>
 
+        <!-- Password Field -->
         <div class="mb-5">
             <label for="Password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
             <input type="password" id="Password" formControlName="Password"
@@ -43,6 +55,7 @@
             </div>
         </div>
 
+        <!-- Confirm Password Field -->
         <div class="mb-5">
             <label for="ConfirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
                 Password</label>
@@ -55,17 +68,22 @@
             </div>
         </div>
 
+        <!-- Profile Image Field -->
         <div class="mb-5">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="ProfileImage">Upload
-                file</label>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="ProfileImage">
+                Upload Image
+            </label>
             <input
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                aria-describedby="ProfileImage_help" id="ProfileImage" type="file" (change)="onFileChange($event)">
-            <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="ProfileImage_help">A profile picture is
-                useful to confirm you are logged into your account.
+                aria-describedby="ProfileImage_help" id="ProfileImage" type="file" accept="image/*"
+                (change)="onFileChange($event)">
+            <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="ProfileImage_help">
+                A profile picture is useful to confirm you are logged into your account.
             </div>
         </div>
 
+
+        <!-- Terms and Conditions Field -->
         <div class="flex items-start mb-5">
             <div class="flex items-center h-5">
                 <input id="terms" type="checkbox" formControlName="terms"
@@ -75,18 +93,13 @@
                     href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
         </div>
 
+
         <div class="mb-2">
             <span>Already have an account? <a routerLink="/login" class="text-blue-600 hover:underline">Sign
                     in</a></span>
         </div>
 
-        <!-- Show error message as an alert -->
-        <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5"
-            role="alert">
-            <strong class="font-bold">Error:</strong>
-            <span class="block sm:inline">{{ errorMessage }}</span>
-        </div>
-
+        <!-- Submit Button -->
         <button type="submit" [disabled]="signupForm.invalid"
             class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register
             new account</button>

@@ -21,9 +21,8 @@ app.use(
 );
 
 // Middleware
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {

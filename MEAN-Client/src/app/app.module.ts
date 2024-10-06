@@ -18,6 +18,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { ProjectModalComponent } from './project-modal/project-modal.component';
 import { ProjectQueryComponent } from './project-query/project-query.component';
 import { ReplyQueryComponent } from './reply-query/reply-query.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SearchProjectPipe } from './pipes/search-project.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { ReplyQueryComponent } from './reply-query/reply-query.component';
     ProjectModalComponent,
     ProjectQueryComponent,
     ReplyQueryComponent,
+    SearchProjectPipe,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import { ReplyQueryComponent } from './reply-query/reply-query.component';
     FormsModule,
     EditorModule,
   ],
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(), provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

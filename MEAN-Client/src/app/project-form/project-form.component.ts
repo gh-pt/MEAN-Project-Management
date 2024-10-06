@@ -10,7 +10,7 @@ import { ProjectService } from '../service/project.service';
 export class ProjectFormComponent implements OnInit {
   projectForm: FormGroup;
   @Output() closeModalEvent = new EventEmitter<void>();
-  @Output() formSubmitEvent = new EventEmitter<any>(); 
+  @Output() formSubmitEvent = new EventEmitter<any>();
   @Input() projectId: object | null = null;
 
   constructor(
@@ -21,8 +21,8 @@ export class ProjectFormComponent implements OnInit {
     this.projectForm = this.fb.group({
       ProjectName: ['', Validators.required],
       Details: ['', Validators.required],
-      DemoLink: ['', [Validators.required, Validators.pattern('https?://.+')]],
-      GithubRepository: ['', [Validators.required, Validators.pattern('https?://.+')]],
+      DemoLink: ['', [Validators.required, Validators.pattern('^https://.+')]],
+      GithubRepository: ['', [Validators.required, Validators.pattern('^https://github\.com/.+')]],
     });
   }
 
@@ -78,13 +78,13 @@ export class ProjectFormComponent implements OnInit {
         this.projectService.updateProject(this.projectId, formData).subscribe({
           next: (res) => {
             console.log('Project Successfully Updated', res);
-            window.alert('Project Successfully Updated');
+            window.alert('Project successfully updated!');
             this.formSubmitEvent.emit(res); // Emit the newly created project data
             this.closeFormModal();
           },
           error: (err) => {
             console.log('Error updating project:', err);
-            window.alert('Something went wrong while updating the project...');
+            window.alert(`Error updating project: ${err.error.message}`);
           }
         });
       } else {
@@ -92,18 +92,19 @@ export class ProjectFormComponent implements OnInit {
         this.projectService.createProject(formData).subscribe({
           next: (res) => {
             console.log('Project Successfully Registered', res);
-            window.alert('Project Successfully Registered');
+            window.alert('Project successfully registered!');
             this.formSubmitEvent.emit(res); // Emit the newly created project data
             this.closeFormModal();
           },
           error: (err) => {
             console.log('Error registering project:', err);
-            window.alert('Something went wrong while Registering...');
+            window.alert(`Error registering project: ${err.error.message}`);
           }
         });
       }
     } else {
       console.log('Form is invalid');
+      window.alert('Form is invalid. Please fill all required fields.');
     }
   }
 }
