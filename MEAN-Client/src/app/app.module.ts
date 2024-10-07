@@ -36,6 +36,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     ProjectQueryComponent,
     ReplyQueryComponent,
     SearchProjectPipe,
+
   ],
   imports: [
     BrowserModule,
