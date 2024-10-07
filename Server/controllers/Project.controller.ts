@@ -29,7 +29,8 @@ export const getProjectById = async (req: Request, res: Response) => {
     });
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      res.status(404).json({ message: "Project not found" });
+      return;
     }
 
     res.status(200).json(project);
@@ -49,7 +50,8 @@ export const getProjectByName = async (req: Request, res: Response) => {
     });
 
     if (!project) {
-      return res.status(404).json({ message: `Project with name "${name}" not found` });
+      res.status(404).json({ message: `Project with name "${name}" not found` });
+      return;
     }
 
     res.status(200).json([project]);
@@ -113,7 +115,8 @@ export const updateProject = async (req: Request, res: Response) => {
     );
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      res.status(404).json({ message: "Project not found" });
+      return;
     }
 
     res.status(200).json({ message: "Project updated successfully", project });
@@ -130,7 +133,8 @@ export const deleteProject = async (req: Request, res: Response) => {
     const project = await Project.findByIdAndDelete(id);
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      res.status(404).json({ message: "Project not found" });
+      return;
     }
 
     res.status(200).json({ message: "Project deleted successfully", project });

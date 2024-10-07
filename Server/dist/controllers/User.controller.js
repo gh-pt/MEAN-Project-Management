@@ -54,7 +54,8 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             $or: [{ Username }, { Email }],
         });
         if (existedUser) {
-            return res.status(409).send("User with email or username already exists");
+            res.status(409).send("User with email or username already exists");
+            return;
         }
         // Handling the uploaded ProfileImage
         let profileImageBuffer = null;
@@ -105,19 +106,22 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { Email, Username, Password } = req.body;
         // check for required fields
         if (!Username && !Email) {
-            return res.status(400).send("Username or email is required!");
+            res.status(400).send("Username or email is required!");
+            return;
         }
         // find the user
         const user = yield User_model_1.User.findOne({
             $or: [{ Username }, { Email }],
         });
         if (!user) {
-            return res.status(404).send("User not found");
+            res.status(404).send("User not found");
+            return;
         }
         // Validate the password
         const isMatch = yield bcryptjs_1.default.compare(Password, user.Password);
         if (!isMatch) {
-            return res.status(400).send({ message: "Invalid credentials" });
+            res.status(400).send({ message: "Invalid credentials" });
+            return;
         }
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
@@ -160,7 +164,8 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
         const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id);
         if (!user) {
-            return res.status(401).send("Invalid refresh token");
+            res.status(401).send("Invalid refresh token");
+            return;
         }
         if (incomingRefreshToken !== user.refreshToken) {
             res.status(401).send("Refresh token is expired or used");
@@ -193,12 +198,14 @@ const verifyToken = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const token = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken) ||
             ((_b = req.header("Authorization")) === null || _b === void 0 ? void 0 : _b.replace("Bearer ", ""));
         if (!token) {
-            return res.status(401).send("Unauthorized request");
+            res.status(401).send("Unauthorized request");
+            return;
         }
         const decodedToken = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id).select("-password -refreshToken");
         if (!user) {
-            return res.status(401).send("Invalid Access Token");
+            res.status(401).send("Invalid Access Token");
+            return;
         }
         res.status(200).json({ message: "Valid User", User: user });
     }

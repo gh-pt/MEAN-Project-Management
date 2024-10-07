@@ -52,8 +52,8 @@ export const registerUser = async (req: Request, res: Response) => {
         });
 
         if (existedUser) {
-            return res.status(409).send("User with email or username already exists");
-
+            res.status(409).send("User with email or username already exists");
+            return;
         }
 
         // Handling the uploaded ProfileImage
@@ -109,7 +109,8 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // check for required fields
         if (!Username && !Email) {
-            return res.status(400).send("Username or email is required!");
+            res.status(400).send("Username or email is required!");
+            return;
         }
 
         // find the user
@@ -118,14 +119,16 @@ export const loginUser = async (req: Request, res: Response) => {
         });
 
         if (!user) {
-            return res.status(404).send("User not found");
+            res.status(404).send("User not found");
+            return;
         }
 
         // Validate the password
         const isMatch = await bcrypt.compare(Password, user.Password);
 
         if (!isMatch) {
-            return res.status(400).send({ message: "Invalid credentials" });
+            res.status(400).send({ message: "Invalid credentials" });
+            return;
         }
 
         // generate the Tokens
@@ -179,7 +182,8 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
         const user = await User.findById(decodedToken?._id);
 
         if (!user) {
-            return res.status(401).send("Invalid refresh token");
+            res.status(401).send("Invalid refresh token");
+            return;
         }
 
         if (incomingRefreshToken !== user.refreshToken) {
@@ -216,7 +220,8 @@ export const verifyToken = async (req: Request, res: Response) => {
             req.header("Authorization")?.replace("Bearer ", "");
 
         if (!token) {
-            return res.status(401).send("Unauthorized request");
+            res.status(401).send("Unauthorized request");
+            return;
         }
 
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
@@ -226,7 +231,8 @@ export const verifyToken = async (req: Request, res: Response) => {
         );
 
         if (!user) {
-            return res.status(401).send("Invalid Access Token");
+            res.status(401).send("Invalid Access Token");
+            return;
         }
 
         res.status(200).json({ message: "Valid User", User: user });

@@ -39,7 +39,8 @@ const getProjectById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             select: "Username",
         });
         if (!project) {
-            return res.status(404).json({ message: "Project not found" });
+            res.status(404).json({ message: "Project not found" });
+            return;
         }
         res.status(200).json(project);
     }
@@ -58,7 +59,8 @@ const getProjectByName = (req, res) => __awaiter(void 0, void 0, void 0, functio
             select: "Username",
         });
         if (!project) {
-            return res.status(404).json({ message: `Project with name "${name}" not found` });
+            res.status(404).json({ message: `Project with name "${name}" not found` });
+            return;
         }
         res.status(200).json([project]);
     }
@@ -117,7 +119,8 @@ const updateProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             Owner,
         }, { new: true });
         if (!project) {
-            return res.status(404).json({ message: "Project not found" });
+            res.status(404).json({ message: "Project not found" });
+            return;
         }
         res.status(200).json({ message: "Project updated successfully", project });
     }
@@ -133,7 +136,8 @@ const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const project = yield Project_model_1.Project.findByIdAndDelete(id);
         if (!project) {
-            return res.status(404).json({ message: "Project not found" });
+            res.status(404).json({ message: "Project not found" });
+            return;
         }
         res.status(200).json({ message: "Project deleted successfully", project });
     }
