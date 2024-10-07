@@ -33,7 +33,7 @@
 <!-- Show message when no projects are found (for search and initial load) -->
 <div *ngIf="(filteredProjects | searchProject: searchTerm).length === 0 && !searchTerm"
     class="text-center text-xl mt-10">
-    No Projects Found
+    No Projects Yet
 </div>
 <div *ngIf="(filteredProjects | searchProject: searchTerm).length === 0 && searchTerm"
     class="text-center text-xl mt-10">

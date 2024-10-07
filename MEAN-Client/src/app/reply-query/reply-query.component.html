@@ -9,7 +9,7 @@
         </div>
 
         <div *ngIf="!isLoading && replies.length === 0" class="text-center">
-            <p>No queries found.</p>
+            <p>No replies found.</p>
         </div>
         <ol *ngIf="!isLoading && replies.length > 0" type="1" class="mb-4">
             <li *ngFor="let reply of replies" class="border-b py-2 flex justify-between items-center">
