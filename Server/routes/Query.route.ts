@@ -1,9 +1,11 @@
 import express from "express";
 import { addQuery, addReplyToQuery, deleteQuery, getAllQueries, getQueriesByProject, getQueryById, updateQuery } from "../controllers/Query.controller";
+import { verifyJwt } from "../middlewares/verifyJwt.middleware";
 
 
 const router = express.Router();
 
+router.use(verifyJwt)
 // Add the Query
 router.post("/add-query", addQuery);
 

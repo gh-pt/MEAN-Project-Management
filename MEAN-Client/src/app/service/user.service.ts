@@ -7,6 +7,7 @@ import { RegisterUser } from '../CustomClass/register-user';
   providedIn: 'root'
 })
 export class UserService {
+
   private apiUrl = 'http://localhost:3000/api/user/';
 
   constructor(private http: HttpClient) { }
@@ -31,4 +32,10 @@ export class UserService {
       withCredentials: true
     })
   }
+
+  // Method to call refresh token API and get new access token
+  refreshAccessToken(): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'refresh-token', { withCredentials: true }).pipe();
+  }
+
 }

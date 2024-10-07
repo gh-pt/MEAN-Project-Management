@@ -167,7 +167,7 @@ export const loginUser = async (req: Request, res: Response) => {
 export const refreshAccessToken = async (req: Request, res: Response) => {
     try {
         const incomingRefreshToken =
-            req.cookies?.refreshToken || req.body?.refreshToken;
+            req.cookies?.refreshToken || req.header("Authorization")?.replace("Bearer ", "");;
 
         if (!incomingRefreshToken) {
             res.status(401).send("Unauthorized request");

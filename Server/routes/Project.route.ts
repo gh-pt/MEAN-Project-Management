@@ -8,9 +8,11 @@ import {
   getProjectByOwner,
   updateProject,
 } from "../controllers/Project.controller";
+import { verifyJwt } from "../middlewares/verifyJwt.middleware";
 
 const router = express.Router();
 
+router.use(verifyJwt)
 // Get all Projects
 router.route("/").get(getAllProjects);
 

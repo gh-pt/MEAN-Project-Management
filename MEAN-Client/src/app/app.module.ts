@@ -9,7 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { CommonModule } from '@angular/common';
@@ -20,6 +20,7 @@ import { ProjectQueryComponent } from './project-query/project-query.component';
 import { ReplyQueryComponent } from './reply-query/reply-query.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SearchProjectPipe } from './pipes/search-project.pipe';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SearchProjectPipe } from './pipes/search-project.pipe';
     FormsModule,
     EditorModule,
   ],
-  providers: [provideHttpClient(), provideAnimationsAsync()],
+  providers: [provideHttpClient(withInterceptors([authInterceptor])), provideAnimationsAsync(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
