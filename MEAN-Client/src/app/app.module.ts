@@ -21,6 +21,7 @@ import { ReplyQueryComponent } from './reply-query/reply-query.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SearchProjectPipe } from './pipes/search-project.pipe';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { ToastrModule } from 'ngx-toastr'
 
 @NgModule({
   declarations: [
@@ -46,6 +47,13 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     CommonModule,
     FormsModule,
     EditorModule,
+    ToastrModule.forRoot(
+      {
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true
+      }
+    )
   ],
   providers: [provideHttpClient(withInterceptors([authInterceptor])), provideAnimationsAsync(),
   ],

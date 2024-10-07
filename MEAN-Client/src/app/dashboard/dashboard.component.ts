@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../CustomClass/project';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,7 +47,9 @@ export class DashboardComponent {
   }
 
 
-  constructor(private projectService: ProjectService) {
+  constructor(private projectService: ProjectService,
+    private toastr: ToastrService
+  ) {
   }
 
   ngOnInit(): void {
@@ -76,12 +79,12 @@ export class DashboardComponent {
     if (ans) {
       this.projectService.deleteProject(id).subscribe({
         next: () => {
-          alert('Product deleted successfully.');
+          this.toastr.success('Project deleted successfully');
           this.filteredProjects = this.filteredProjects.filter(p => p._id !== id);
         },
         error: (err) => {
           console.log(err);
-          alert('Something went wrong while deleting the product.');
+          this.toastr.error(err.error.message);
         }
       });
     }

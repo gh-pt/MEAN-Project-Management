@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../service/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,7 @@ export class NavbarComponent {
   }
 
 
-  constructor(private UserService: UserService) {
+  constructor(private UserService: UserService, private toastr: ToastrService) {
 
   }
 
@@ -43,14 +44,14 @@ export class NavbarComponent {
     obs.subscribe({
       next: (res) => {
         console.log(`User Successfully Logout`, res);
-        window.alert(`User Successfully Logout`);
+        this.toastr.success('User Successfully Logout');
         localStorage.removeItem('isLogin');
         localStorage.removeItem('user');
         window.location.reload();
       },
       error: (err) => {
         console.log(err);
-        window.alert("Something went wrong while Logout...");
+        this.toastr.error(err.error.message);
       }
     });
   }

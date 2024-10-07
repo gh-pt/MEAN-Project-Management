@@ -4,6 +4,7 @@ import { QueryService } from '../service/query.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Query } from '../CustomClass/query';
 import { Reply } from '../CustomClass/reply';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ReplyQueryComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private queryService: QueryService,
     private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     // Initialize the form group with a validation rule for the query field
     this.queryForm = this.fb.group({
@@ -46,7 +48,6 @@ export class ReplyQueryComponent implements OnInit {
     if (user) {
       this.userId = JSON.parse(user).user._id;
     }
-    console.log(this.userId)
   }
 
   // Method to load project queries
@@ -77,6 +78,7 @@ export class ReplyQueryComponent implements OnInit {
       this.queryService.addReplyToQuery(this.id, formData).subscribe({
         next: (res) => {
           console.log('reply submitted successfully:', res);
+          this.toastr.success('Reply submitted successfully');
           this.queryForm.reset();
           this.loadQueries();
         },

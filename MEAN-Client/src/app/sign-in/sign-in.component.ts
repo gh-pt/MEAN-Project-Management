@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +16,8 @@ export class SignInComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private UserService: UserService
+    private UserService: UserService,
+    private toastr: ToastrService
   ) {
     this.SignInForm = this.formBuilder.group({
       Email: ['', [Validators.required, Validators.email]],
@@ -36,7 +38,7 @@ export class SignInComponent {
     obs.subscribe({
       next: (res) => {
         console.log(`User Successfully Signed In`, res);
-        window.alert(`User Successfully Signed In`);
+        this.toastr.success('User Successfully Signed In');
         localStorage.setItem("isLogin", "true");
         localStorage.setItem("user", JSON.stringify(res));
         this.router.navigate(['/dashboard']);

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectService } from '../service/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-form',
@@ -15,7 +16,8 @@ export class ProjectFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private toastr: ToastrService
   ) {
     // Initialize the form with field names and validations
     this.projectForm = this.fb.group({
@@ -54,7 +56,7 @@ export class ProjectFormComponent implements OnInit {
       },
       error: (err) => {
         console.log('Error loading project data:', err);
-        window.alert('Failed to load project data.');
+        this.toastr.error(err.error.message);
       }
     });
   }
@@ -78,13 +80,13 @@ export class ProjectFormComponent implements OnInit {
         this.projectService.updateProject(this.projectId, formData).subscribe({
           next: (res) => {
             console.log('Project Successfully Updated', res);
-            window.alert('Project successfully updated!');
+            this.toastr.success('Project successfully updated!');
             this.formSubmitEvent.emit(res); // Emit the newly created project data
             this.closeFormModal();
           },
           error: (err) => {
             console.log('Error updating project:', err);
-            window.alert(`Error updating project: ${err.error.message}`);
+            this.toastr.error(err.error.message);
           }
         });
       } else {
@@ -92,19 +94,19 @@ export class ProjectFormComponent implements OnInit {
         this.projectService.createProject(formData).subscribe({
           next: (res) => {
             console.log('Project Successfully Registered', res);
-            window.alert('Project successfully registered!');
+            this.toastr.success('Project successfully registered!');
             this.formSubmitEvent.emit(res); // Emit the newly created project data
             this.closeFormModal();
           },
           error: (err) => {
             console.log('Error registering project:', err);
-            window.alert(`Error registering project: ${err.error.message}`);
+            this.toastr.error(err.error.message);
           }
         });
       }
     } else {
       console.log('Form is invalid');
-      window.alert('Form is invalid. Please fill all required fields.');
+      this.toastr.error('Form is invalid All Fields are required');
     }
   }
 }

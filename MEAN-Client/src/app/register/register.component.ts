@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,7 +15,8 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private UserService: UserService
+    private UserService: UserService,
+    private toastr: ToastrService
   ) {
     this.signupForm = this.formBuilder.group({
       Username: ['', Validators.required],
@@ -65,7 +67,7 @@ export class RegisterComponent {
     obs.subscribe({
       next: (res) => {
         console.log(`User Successfully Registered`, res);
-        window.alert(`User Successfully Registered`);
+        this.toastr.success('User Successfully Registered');
         this.router.navigate(['/login']);
       },
       error: (err) => {
