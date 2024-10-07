@@ -47,7 +47,9 @@ export class NavbarComponent {
         this.toastr.success('User Successfully Logout');
         localStorage.removeItem('isLogin');
         localStorage.removeItem('user');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 500)
       },
       error: (err) => {
         console.log(err);
