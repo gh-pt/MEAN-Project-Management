@@ -16,17 +16,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Initialize Flowbite when the app starts
     initFlowbite();
-
-    // Subscribe to router events to detect navigation changes
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        // Check if the current route is '/login' or '/register'
-        this.isLoginOrRegisterPage = this.isLoginOrRegister();
-
-        // Reinitialize Flowbite components when navigation changes
-        initFlowbite();
-      }
-    });
   }
 
   // Check if the current URL is either '/login' or '/register'
