@@ -40,7 +40,6 @@ export class DashboardComponent {
 
   // Method to perform the search
   onSearch() {
-    // No need for manual search filtering anymore
     if (!this.searchTerm) {
       this.filteredProjects = [...this.projects];
     }
@@ -58,8 +57,6 @@ export class DashboardComponent {
   loadProjects(): void {
     if (this.user) {
       const userId = JSON.parse(this.user)?.user?._id;
-      console.log(userId)
-
       this.projectService.getProductByOwner(userId).subscribe((data: Project[]) => {
         this.projects = data;
         this.filteredProjects = [...this.projects]; // Initially display all products

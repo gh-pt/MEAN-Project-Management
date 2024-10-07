@@ -68,10 +68,6 @@ export const getProjectByOwner = async (req: Request, res: Response) => {
       select: "Username",
     });
 
-    if (!projects.length) {
-      return res.status(404).json({ message: "No projects found for this owner" });
-    }
-
     res.status(200).json(projects);
   } catch (error) {
     console.error("Error fetching projects by owner:", error);

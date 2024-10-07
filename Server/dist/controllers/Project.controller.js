@@ -76,9 +76,6 @@ const getProjectByOwner = (req, res) => __awaiter(void 0, void 0, void 0, functi
             path: "Owner",
             select: "Username",
         });
-        if (!projects.length) {
-            return res.status(404).json({ message: "No projects found for this owner" });
-        }
         res.status(200).json(projects);
     }
     catch (error) {

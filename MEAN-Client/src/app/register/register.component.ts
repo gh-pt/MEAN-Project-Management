@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   signupForm: FormGroup;
-  errorMessage: string = ''; // To store error messages
+  errorMessage: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,9 +21,9 @@ export class RegisterComponent {
       Email: ['', [Validators.required, Validators.email]],
       Contact: ['', [
         Validators.required,
-        Validators.pattern('^[0-9]*$'),  // Only numbers allowed
-        Validators.minLength(10),        // Minimum length is 10
-        Validators.maxLength(10)         // Maximum length is 10
+        Validators.pattern('^[0-9]*$'),
+        Validators.minLength(10),
+        Validators.maxLength(10)
       ]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
@@ -32,6 +32,7 @@ export class RegisterComponent {
     }, { validator: this.passwordMatchValidator });
   }
 
+  // Method to match the password and confirm password
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('Password')?.value;
     const confirmPassword = formGroup.get('ConfirmPassword')?.value;

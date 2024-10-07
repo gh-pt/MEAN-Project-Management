@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Project } from '../CustomClass/project';
-import { debounceTime, Subject } from 'rxjs';
 import { ProjectService } from '../service/project.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class ProjectsComponent {
   projects: Project[] = [];
   filteredProjects: Project[] = [];
   searchTerm: string = '';
-  searchInput = new Subject<string>();
 
   constructor(private projectService: ProjectService) {
   }
@@ -31,7 +29,6 @@ export class ProjectsComponent {
 
   // Method to perform the search
   onSearch() {
-    // No need for manual search filtering anymore
     if (!this.searchTerm) {
       this.filteredProjects = [...this.projects];
     }
