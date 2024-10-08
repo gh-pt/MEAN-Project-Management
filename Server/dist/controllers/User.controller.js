@@ -153,29 +153,85 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.loginUser = loginUser;
 // Refresh Token
+// export const refreshAccessToken = async (req: Request, res: Response) => {
+//     try {
+//         const incomingRefreshToken =
+//             req.cookies?.refreshToken || req.header("Authorization")?.replace("Bearer ", "");;
+//         if (!incomingRefreshToken) {
+//             res.status(401).send("Unauthorized request");
+//             return;
+//         }
+//         const decodedToken = jwt.verify(
+//             incomingRefreshToken,
+//             process.env.REFRESH_TOKEN_SECRET as string
+//         ) as JwtPayload;
+//         const user = await User.findById(decodedToken?._id);
+//         if (!user) {
+//             res.status(401).send("Invalid refresh token");
+//             return;
+//         }
+//         if (incomingRefreshToken !== user.refreshToken) {
+//             res.status(401).send("Refresh token is expired or used");
+//             return;
+//         }
+//         const { accessToken, refreshToken } = generateTokens(user._id);
+//         // Add refreshToken to the user object 
+//         user.refreshToken = refreshToken;
+//         await user.save();
+//         res
+//             .status(200)
+//             .cookie("accessToken", accessToken, cookieOptions)
+//             .cookie("refreshToken", refreshToken, cookieOptions)
+//             .send({
+//                 message: "Access Token Refreshed",
+//                 accessToken,
+//                 refreshToken,
+//             });
+//     } catch (error) {
+//         console.error("Error:", error);
+//         res.status(500).send(error);
+//     }
+// };
 const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     try {
         const incomingRefreshToken = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.refreshToken) || ((_b = req.header("Authorization")) === null || _b === void 0 ? void 0 : _b.replace("Bearer ", ""));
-        ;
+        // Check if the refresh token is present
         if (!incomingRefreshToken) {
-            res.status(401).send("Unauthorized request");
-            return;
+            return res.status(401).json({
+                error: {
+                    code: 'UNAUTHORIZED',
+                    message: 'No refresh token provided. Unauthorized request.'
+                }
+            });
         }
+        // Verify the refresh token
         const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        // Find the user by the ID in the decoded token
         const user = yield User_model_1.User.findById(decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken._id);
         if (!user) {
-            res.status(401).send("Invalid refresh token");
-            return;
+            return res.status(401).json({
+                error: {
+                    code: 'INVALID_TOKEN',
+                    message: 'Invalid refresh token. User not found.'
+                }
+            });
         }
+        // Check if the incoming refresh token matches the one stored in the user object
         if (incomingRefreshToken !== user.refreshToken) {
-            res.status(401).send("Refresh token is expired or used");
-            return;
+            return res.status(401).json({
+                error: {
+                    code: 'TOKEN_EXPIRED_OR_USED',
+                    message: 'Refresh token is expired or has already been used.'
+                }
+            });
         }
+        // Generate new tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
-        // Add refreshToken to the user object 
+        // Update the user with the new refresh token
         user.refreshToken = refreshToken;
         yield user.save();
+        // Send new tokens in response with cookies
         res
             .status(200)
             .cookie("accessToken", accessToken, cookieOptions)
@@ -188,7 +244,13 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (error) {
         console.error("Error:", error);
-        res.status(500).send(error);
+        // If there is a server-side error, send a 500 response
+        res.status(500).json({
+            error: {
+                code: 'SERVER_ERROR',
+                message: 'An error occurred while refreshing the access token.'
+            }
+        });
     }
 });
 exports.refreshAccessToken = refreshAccessToken;
