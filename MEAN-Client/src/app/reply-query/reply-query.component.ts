@@ -28,14 +28,13 @@ export class ReplyQueryComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService
   ) {
-    // Initialize the form group with a validation rule for the query field
     this.queryForm = this.fb.group({
       reply: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
   ngOnInit(): void {
-    // Get project ID from route params
+    // Get project ID
     this.route = this.activeRoute.snapshot.routeConfig?.path;
     const routeParam = this.activeRoute.snapshot.paramMap.get('id');
     if (routeParam != null) {
@@ -43,7 +42,6 @@ export class ReplyQueryComponent implements OnInit {
       this.loadQueries();
     }
 
-    // Get userId from localStorage
     const user = localStorage.getItem('user');
     if (user) {
       this.userId = JSON.parse(user).user._id;
@@ -70,11 +68,9 @@ export class ReplyQueryComponent implements OnInit {
   // Handle form submission
   onSubmit() {
     if (this.queryForm.valid && this.userId) {
-      // Prepare form data
+      
       const formData = { ...this.queryForm.value, userId: this.userId, };
 
-      console.log(formData)
-      // Call the service to submit the query with FormData
       this.queryService.addReplyToQuery(this.id, formData).subscribe({
         next: (res) => {
           console.log('reply submitted successfully:', res);

@@ -14,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (user) {
     userId = JSON.parse(user).user._id
   }
-  // Flag to prevent infinite retry loop
+  // flag to avoid infinite loop
   let isRetryAttempted = false;
 
   return next(req.clone({ withCredentials: true })).pipe(
@@ -23,17 +23,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         console.log("Unauthorized error, attempting to refresh access token.");
         isRetryAttempted = true;
 
-        // Call refreshAccessToken if 401 Unauthorized
+        // call the refreshtoken
         return userService.refreshAccessToken().pipe(
           switchMap(() => {
             console.log("Access token refreshed successfully");
 
-            // Retry the original request after refreshing the token
+            // refresh token  
             const clonedRequest = req.clone({
               withCredentials: true
             });
 
-            return next(clonedRequest); // Retry the original request
+            return next(clonedRequest);
           }),
           catchError((refreshError) => {
             console.error("Token refresh failed:", refreshError);

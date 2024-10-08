@@ -1,7 +1,6 @@
 import multer from 'multer';
 
-// Configure Multer to store files in memory as buffer
-const storage = multer.memoryStorage(); // Store file in memory
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage,

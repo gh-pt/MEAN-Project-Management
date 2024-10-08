@@ -62,7 +62,7 @@ export class DashboardComponent {
       const userId = JSON.parse(this.user)?.user?._id;
       this.projectService.getProductByOwner(userId).subscribe((data: Project[]) => {
         this.projects = data;
-        this.filteredProjects = [...this.projects]; // Initially display all products
+        this.filteredProjects = [...this.projects];
       })
     };
   }
@@ -70,7 +70,7 @@ export class DashboardComponent {
   // Method to clear the search
   clearSearch() {
     this.searchTerm = '';
-    this.filteredProjects = [...this.projects]; // Reset to show all products
+    this.filteredProjects = [...this.projects];
   }
 
   // Method to delete a project

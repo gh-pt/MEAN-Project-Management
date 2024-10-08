@@ -29,14 +29,12 @@ export class ProjectFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load project data if projectId is provided on component initialization
     if (this.projectId) {
       this.loadProjectData(this.projectId);
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // React to changes in the projectId input and load project data
     if (changes['projectId'] && this.projectId) {
       this.loadProjectData(this.projectId);
     }
@@ -66,17 +64,16 @@ export class ProjectFormComponent implements OnInit {
     this.closeModalEvent.emit();
   }
 
-  // Method to handle form submission (create or update)
+  // Method to submit form
   onSubmit() {
     if (this.projectForm.valid) {
-      // Retrieve owner from localStorage
+      
       const Owner = JSON.parse(localStorage.getItem('user') || '{}').user._id;
 
-      // Merge the owner field into the form value
       const formData = { ...this.projectForm.value, Owner };
 
       if (this.projectId) {
-        // Update existing project if in edit mode
+        // Update existing project 
         this.projectService.updateProject(this.projectId, formData).subscribe({
           next: (res) => {
             console.log('Project Successfully Updated', res);

@@ -4,8 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
-// Configure Multer to store files in memory as buffer
-const storage = multer_1.default.memoryStorage(); // Store file in memory
+const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB

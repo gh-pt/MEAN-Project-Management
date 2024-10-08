@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QueryService } from '../service/query.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Query } from '../CustomClass/query';
-import { ProjectService } from '../service/project.service';
 
 @Component({
   selector: 'app-project-query',
@@ -21,17 +20,15 @@ export class ProjectQueryComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private queryService: QueryService,
-    private projectService: ProjectService,
     private fb: FormBuilder,
   ) {
-    // Initialize the form group with a validation rule for the query field
     this.queryForm = this.fb.group({
       query: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
   ngOnInit(): void {
-    // Get project ID from route params
+    // get the route param
     this.route = this.activeRoute.snapshot.routeConfig?.path;
     const routeParam = this.activeRoute.snapshot.paramMap.get('id');
     if (routeParam != null) {
@@ -39,7 +36,7 @@ export class ProjectQueryComponent implements OnInit {
       this.loadQueries();
     }
 
-    // Get userId from localStorage
+
     const user = localStorage.getItem('user');
     if (user) {
       this.userId = JSON.parse(user).user._id;
@@ -65,11 +62,9 @@ export class ProjectQueryComponent implements OnInit {
   // Handle form submission
   onSubmit() {
     if (this.queryForm.valid && this.userId) {
-      // Prepare form data
+
       const formData = { ...this.queryForm.value, projectId: this.id, userId: this.userId, };
 
-      console.log(formData)
-      // Call the service to submit the query with FormData
       this.queryService.addQuery(formData).subscribe({
         next: (res) => {
           console.log('Query submitted successfully:', res);

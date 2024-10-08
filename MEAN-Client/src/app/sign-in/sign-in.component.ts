@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SignInComponent {
   SignInForm: FormGroup;
-  errorMessage: string | null = null; // To store error messages
+  errorMessage: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +31,7 @@ export class SignInComponent {
     }
 
     const signInData = this.SignInForm.value;
-    this.errorMessage = null;  // Reset error message before making the request
+    this.errorMessage = null;
 
     console.log(signInData);
     const obs = this.UserService.signIn(signInData);
@@ -45,7 +45,7 @@ export class SignInComponent {
       },
       error: (err) => {
         console.log(err);
-        // Display a custom error message based on the error status and message
+        // Display a custom error message 
         if (err.status === 404) {
           this.errorMessage = "User not found. Please check your email or username.";
         } else if (err.status === 400) {

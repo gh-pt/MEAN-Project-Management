@@ -9,10 +9,10 @@ export class SearchProjectPipe implements PipeTransform {
 
   transform(projects: Project[], searchTerm: string): Project[] {
     if (!projects || !searchTerm) {
-      return projects; // Return the full list if there is no search term
+      return projects;
     }
 
-    // Convert search term to lowercase to make the search case-insensitive
+    // Convert search term to lowercase 
     searchTerm = searchTerm.toLowerCase();
 
     // Filter projects based on the project name

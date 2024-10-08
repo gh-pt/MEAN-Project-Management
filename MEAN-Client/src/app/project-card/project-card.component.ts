@@ -10,32 +10,32 @@ import { Router } from '@angular/router';
 export class ProjectCardComponent {
   @Input() project!: Project;
   @Output() emitter = new EventEmitter<object>();
-  @Output() editProjectEvent = new EventEmitter<object>(); // Emit project ID to parent
+  @Output() editProjectEvent = new EventEmitter<object>(); 
   isModalOpen = false;
   selectedProject: any = null;
-  isDashboard: boolean = false; // To track if the current route is '/dashboard'
+  isDashboard: boolean = false; 
 
   constructor(private router: Router) { }
 
-  // Check if the current URL contains '/dashboard'
+  // if Dashboard
   ngOnInit(): void {
     this.isDashboard = this.router.url.includes('/dashboard');
   }
 
-  // Emit the project ID when the edit button is clicked
+  // Emit the project ID
   editProject() {
     this.editProjectEvent.emit(this.project._id);
   }
 
   // Method to open the modal with project data
   openModal() {
-    this.selectedProject = this.project; // Pass project data
+    this.selectedProject = this.project; 
     this.isModalOpen = true;
   }
 
   // Method to close the modal
   closeModal() {
     this.isModalOpen = false;
-    this.selectedProject = null; // Clear the selected project
+    this.selectedProject = null; 
   }
 }
