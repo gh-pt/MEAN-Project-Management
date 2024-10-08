@@ -63,7 +63,7 @@ export const registerUser = async (req: Request, res: Response) => {
         // Check if a file was uploaded
         if (req.file) {
             profileImageBuffer = req.file.buffer; // Image stored in buffer format
-            profileImageMimeType = req.file.mimetype; // MIME type (e.g., image/png)
+            profileImageMimeType = req.file.mimetype; // content type
         }
 
         // generate hashedPassword
@@ -78,7 +78,7 @@ export const registerUser = async (req: Request, res: Response) => {
             ConfirmPassword: hashedPassword,
             ProfileImage: {
                 data: profileImageBuffer, // Store the image buffer in MongoDB
-                contentType: profileImageMimeType, // Store the image MIME type
+                contentType: profileImageMimeType, // content type
             },
         }).save();
 
@@ -134,9 +134,9 @@ export const loginUser = async (req: Request, res: Response) => {
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
 
-        // Add refreshToken to the user object without making another DB call
+        // Add refreshToken to the user object
         user.refreshToken = refreshToken;
-        await user.save();  // Save the updated refreshToken directly to the user document
+        await user.save(); 
 
         const loggedInUser = {
             _id: user._id,
@@ -250,7 +250,7 @@ export const logoutUser = async (req: Request, res: Response) => {
         // Find user by id and clear refresh token from database
         await User.updateOne(
             { _id: userId },
-            { $set: { refreshToken: '' } } // Remove the refresh token from DB
+            { $set: { refreshToken: '' } } 
         );
 
         // Clear cookies
