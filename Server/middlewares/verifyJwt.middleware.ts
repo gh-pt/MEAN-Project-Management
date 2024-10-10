@@ -10,7 +10,7 @@ interface CustomRequest extends Request {
     };
 }
 
-export const verifyJwt = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
+export const verifyJwt = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
 
