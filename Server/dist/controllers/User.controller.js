@@ -63,7 +63,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         // Check if a file was uploaded
         if (req.file) {
             profileImageBuffer = req.file.buffer; // Image stored in buffer format
-            profileImageMimeType = req.file.mimetype; // MIME type (e.g., image/png)
+            profileImageMimeType = req.file.mimetype; // content type
         }
         // generate hashedPassword
         const hashedPassword = yield bcryptjs_1.default.hash(Password, 10);
@@ -76,7 +76,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             ConfirmPassword: hashedPassword,
             ProfileImage: {
                 data: profileImageBuffer, // Store the image buffer in MongoDB
-                contentType: profileImageMimeType, // Store the image MIME type
+                contentType: profileImageMimeType, // content type
             },
         }).save();
         const RegisteredUser = {
@@ -125,9 +125,9 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // generate the Tokens
         const { accessToken, refreshToken } = generateTokens(user._id);
-        // Add refreshToken to the user object without making another DB call
+        // Add refreshToken to the user object
         user.refreshToken = refreshToken;
-        yield user.save(); // Save the updated refreshToken directly to the user document
+        yield user.save();
         const loggedInUser = {
             _id: user._id,
             Username: user.Username,
@@ -221,8 +221,7 @@ const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const userId = req.body.userId;
         // Find user by id and clear refresh token from database
-        yield User_model_1.User.updateOne({ _id: userId }, { $set: { refreshToken: '' } } // Remove the refresh token from DB
-        );
+        yield User_model_1.User.updateOne({ _id: userId }, { $set: { refreshToken: '' } });
         // Clear cookies
         res.clearCookie("accessToken", cookieOptions);
         res.clearCookie("refreshToken", cookieOptions);
