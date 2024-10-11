@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { UserInterface } from '../interfaces/User.interface';
 
-// Define the schema
+
 const userSchema: Schema = new Schema(
     {
         Username: { type: String, required: true, unique: true },
@@ -18,5 +18,5 @@ const userSchema: Schema = new Schema(
     { timestamps: true }
 );
 
-// Create and export the User model
+
 export const User = mongoose.model<UserInterface>('User', userSchema);

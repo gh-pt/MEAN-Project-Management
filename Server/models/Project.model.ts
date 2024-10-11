@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { ProjectInterface } from "../interfaces/Project.interface";
 
-// Define the schema
+
 const ProjectSchema: Schema = new Schema(
     {
         "ProjectName": { type: String, required: true },
@@ -14,5 +14,5 @@ const ProjectSchema: Schema = new Schema(
     { timestamps: true }
 );
 
-// Create and export the Project model
+
 export const Project = mongoose.model<ProjectInterface>("Project", ProjectSchema);

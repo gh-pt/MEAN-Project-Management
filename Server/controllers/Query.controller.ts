@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { Query } from "../models/Query.model";
 import { Project } from "../models/Project.model";
 import { User } from "../models/User.model";
-import { QueryInterface } from "../interfaces/Query.interface";
 import { ObjectId } from "mongoose";
 
 

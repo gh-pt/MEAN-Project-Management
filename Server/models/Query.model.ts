@@ -1,19 +1,19 @@
 import mongoose, { Schema } from "mongoose";
 import { QueryInterface } from "../interfaces/Query.interface";
 
-// Define the schema
+
 const QuerySchema: Schema = new Schema(
   {
     projectname: { type: String, required: true },
     query: { type: String, required: true },
     replies: [
       {
-        user: { type: Schema.Types.ObjectId, ref: "User" }, // Reference to the user who replied
+        user: { type: Schema.Types.ObjectId, ref: "User" }, // user model
         reply: { type: String, required: true },
       },
     ],
-    project: { type: Schema.Types.ObjectId, ref: "Project" }, // Reference to the project
-    userId: { type: Schema.Types.ObjectId, ref: "User" }, // Reference to the user who created the query
+    project: { type: Schema.Types.ObjectId, ref: "Project" }, // project model
+    userId: { type: Schema.Types.ObjectId, ref: "User" }, // user model
   },
   { timestamps: true }
 );
