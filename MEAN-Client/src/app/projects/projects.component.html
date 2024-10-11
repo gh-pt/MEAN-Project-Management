@@ -1,19 +1,14 @@
 <div class="flex items-center justify-between px-6">
     <div class="relative flex items-center gap-2">
         <input type="text" placeholder="Search..." [(ngModel)]="searchTerm"
-            class="w-[80%] md:w-[90%] h-full outline-none rounded-md px-3" />
+            class="h-full outline-none rounded-md px-3" />
 
         <!-- Clear button -->
         <button *ngIf="searchTerm" (click)="clearSearch()"
-            class="text-2xl absolute opacity-90 rounded-full right-[6rem]">
+            class="text-2xl absolute opacity-90 rounded-full right-[1.5rem]">
             &times; <!-- Cross icon -->
         </button>
 
-        <!-- Search button -->
-        <button (click)="onSearch()"
-            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-600">
-            Search
-        </button>
     </div>
 </div>
 
