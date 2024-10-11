@@ -26,7 +26,7 @@ export const addQuery = async (req: Request, res: Response) => {
         }
 
         // Create a new query
-        const newQuery: QueryInterface = new Query({
+        const newQuery = new Query({
             projectname: project.ProjectName,
             query,
             replies: [],
