@@ -3,7 +3,7 @@ import { Project } from '../CustomClass/project';
 
 @Pipe({
   name: 'searchProject',
-  pure: false
+  pure: true
 })
 export class SearchProjectPipe implements PipeTransform {
 
