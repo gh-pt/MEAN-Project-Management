@@ -68,7 +68,6 @@ export class ReplyQueryComponent implements OnInit {
   // Handle form submission
   onSubmit() {
     if (this.queryForm.valid && this.userId) {
-      
       const formData = { ...this.queryForm.value, userId: this.userId, };
 
       this.queryService.addReplyToQuery(this.id, formData).subscribe({
@@ -82,6 +81,9 @@ export class ReplyQueryComponent implements OnInit {
           console.error('Error submitting query:', err);
         },
       });
+    } else {
+      console.log("Reply form invalid");
+      this.toastr.error("Please enter the Reply Text.")
     }
   }
 }

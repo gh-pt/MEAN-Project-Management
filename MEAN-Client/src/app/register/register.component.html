@@ -71,16 +71,21 @@
         <!-- Profile Image Field -->
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="ProfileImage">
-                Upload Image
+                Upload Image <span class="text-red-500">*</span>
             </label>
             <input
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                 aria-describedby="ProfileImage_help" id="ProfileImage" type="file" accept="image/*"
-                (change)="onFileChange($event)">
+                (change)="onFileChange($event)" required>
             <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="ProfileImage_help">
                 A profile picture is useful to confirm you are logged into your account.
             </div>
+            <div *ngIf="signupForm.get('ProfileImage')?.invalid && signupForm.get('ProfileImage')?.touched"
+                class="text-red-500">
+                Profile image is required.
+            </div>
         </div>
+
 
 
         <!-- Terms and Conditions Field -->
@@ -100,7 +105,7 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" [disabled]="signupForm.invalid"
+        <button type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register
             new account</button>
     </form>

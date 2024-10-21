@@ -25,7 +25,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Project = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-// Define the schema
 const ProjectSchema = new mongoose_1.Schema({
     "ProjectName": { type: String, required: true },
     "Details": { type: String, required: true },
@@ -34,5 +33,4 @@ const ProjectSchema = new mongoose_1.Schema({
     "Owner": { type: mongoose_1.Schema.Types.ObjectId, ref: "User" },
     "queries": [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Query" }]
 }, { timestamps: true });
-// Create and export the Project model
 exports.Project = mongoose_1.default.model("Project", ProjectSchema);

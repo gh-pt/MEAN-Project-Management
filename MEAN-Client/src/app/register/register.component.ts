@@ -29,7 +29,7 @@ export class RegisterComponent {
       ]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
-      ProfileImage: [null],
+      ProfileImage: [null, Validators.required],
       terms: [false, Validators.requiredTrue]
     }, { validator: this.passwordMatchValidator });
   }
@@ -42,48 +42,49 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.signupForm.invalid) {
-      this.errorMessage = "Please fill out all required fields correctly.";
-      return;
-    }
 
-    const formData = new FormData();
-    formData.append('Username', this.signupForm.get('Username')?.value);
-    formData.append('Email', this.signupForm.get('Email')?.value);
-    formData.append('Contact', this.signupForm.get('Contact')?.value);
-    formData.append('Password', this.signupForm.get('Password')?.value);
-    formData.append('ConfirmPassword', this.signupForm.get('ConfirmPassword')?.value);
+    if (this.signupForm.valid) {
 
-    // Handle file upload
-    const fileInput = this.signupForm.get('ProfileImage')?.value;
-    if (fileInput) {
-      formData.append('ProfileImage', fileInput);
-    }
+      const formData = new FormData();
+      formData.append('Username', this.signupForm.get('Username')?.value);
+      formData.append('Email', this.signupForm.get('Email')?.value);
+      formData.append('Contact', this.signupForm.get('Contact')?.value);
+      formData.append('Password', this.signupForm.get('Password')?.value);
+      formData.append('ConfirmPassword', this.signupForm.get('ConfirmPassword')?.value);
 
-    // Reset error message
-    this.errorMessage = '';
-
-    const obs = this.UserService.registerUser(formData);
-    obs.subscribe({
-      next: (res) => {
-        console.log(`User Successfully Registered`, res);
-        this.toastr.success('User Successfully Registered');
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        // Handle backend errors and set appropriate error messages
-        if (err.status === 409) {
-          this.errorMessage = "User with this email or username already exists.";
-        } else if (err.status === 400) {
-          this.errorMessage = "Bad request. Please check the entered details.";
-        } else if (err.status === 500) {
-          this.errorMessage = "Server error. Please try again later.";
-        } else {
-          this.errorMessage = "Something went wrong while registering.";
-        }
-        console.log(err);
+      // Handle file upload
+      const fileInput = this.signupForm.get('ProfileImage')?.value;
+      if (fileInput) {
+        formData.append('ProfileImage', fileInput);
       }
-    });
+
+      // Reset error message
+      this.errorMessage = '';
+
+      const obs = this.UserService.registerUser(formData);
+      obs.subscribe({
+        next: (res) => {
+          console.log(`User Successfully Registered`, res);
+          this.toastr.success('User Successfully Registered');
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          // Handle backend errors and set appropriate error messages
+          if (err.status === 409) {
+            this.errorMessage = "User with this email or username already exists.";
+          } else if (err.status === 400) {
+            this.errorMessage = "Bad request. Please check the entered details.";
+          } else if (err.status === 500) {
+            this.errorMessage = "Server error. Please try again later.";
+          } else {
+            this.errorMessage = "Something went wrong while registering.";
+          }
+          console.log(err);
+        }
+      });
+    } else {
+      this.errorMessage = "Please fill out all required fields correctly.";
+    }
   }
 
   // Handle file input

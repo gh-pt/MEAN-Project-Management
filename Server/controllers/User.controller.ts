@@ -136,7 +136,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // Add refreshToken to the user object
         user.refreshToken = refreshToken;
-        await user.save(); 
+        await user.save();
 
         const loggedInUser = {
             _id: user._id,
@@ -250,7 +250,7 @@ export const logoutUser = async (req: Request, res: Response) => {
         // Find user by id and clear refresh token from database
         await User.updateOne(
             { _id: userId },
-            { $set: { refreshToken: '' } } 
+            { $set: { refreshToken: '' } }
         );
 
         // Clear cookies

@@ -25,18 +25,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Query = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-// Define the schema
 const QuerySchema = new mongoose_1.Schema({
     projectname: { type: String, required: true },
     query: { type: String, required: true },
     replies: [
         {
-            user: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" }, // Reference to the user who replied
+            user: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" }, // user model
             reply: { type: String, required: true },
         },
     ],
-    project: { type: mongoose_1.Schema.Types.ObjectId, ref: "Project" }, // Reference to the project
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" }, // Reference to the user who created the query
+    project: { type: mongoose_1.Schema.Types.ObjectId, ref: "Project" }, // project model
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" }, // user model
 }, { timestamps: true });
 // Create and export the Query model
 exports.Query = mongoose_1.default.model("Query", QuerySchema);

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QueryService } from '../service/query.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Query } from '../CustomClass/query';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-query',
@@ -21,6 +22,7 @@ export class ProjectQueryComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private queryService: QueryService,
     private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.queryForm = this.fb.group({
       query: ['', [Validators.required, Validators.minLength(10)]],
@@ -75,6 +77,9 @@ export class ProjectQueryComponent implements OnInit {
           console.error('Error submitting query:', err);
         },
       });
+    } else {
+      console.log("Reply form invalid");
+      this.toastr.error("Please enter the Reply Text.")
     }
   }
 }
