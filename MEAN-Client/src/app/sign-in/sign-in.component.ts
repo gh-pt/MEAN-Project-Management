@@ -54,7 +54,7 @@ export class SignInComponent {
       });
     } else {
       console.log("invalid")
-      this.errorMessage = "Please fill fileds!"
+      this.errorMessage = "Please fill out all required fields correctly."
     }
   }
 }
